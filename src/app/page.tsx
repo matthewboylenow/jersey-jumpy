@@ -1,103 +1,204 @@
-import Image from "next/image";
+"use client";
+
+import { motion } from "framer-motion";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="min-h-screen animated-gradient overflow-hidden relative">
+      {/* Floating Blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute -top-20 -right-20 w-96 h-96 bg-lavender/30 rounded-full blur-3xl"
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, 3, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+        <motion.div
+          className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-mint/20 rounded-full blur-3xl"
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, -3, 0],
+          }}
+          transition={{
+            duration: 6,
+            delay: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-peach/15 rounded-full blur-3xl"
+          animate={{
+            y: [0, -15, 0],
+            x: [0, 10, 0],
+          }}
+          transition={{
+            duration: 8,
+            delay: 1,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12">
+        {/* Hero Section */}
+        <motion.div
+          className="text-center max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          {/* Logo Text */}
+          <motion.h1
+            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4"
+            style={{ fontFamily: "var(--font-baloo), sans-serif" }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <span className="bg-gradient-to-r from-[#FF6B6B] via-[#FFE66D] via-[#4ECDC4] via-[#45B7D1] to-[#96CEB4] bg-clip-text text-transparent">
+              Jersey
+            </span>{" "}
+            <span className="bg-gradient-to-r from-[#DDA0DD] via-[#FF69B4] to-[#FF6B6B] bg-clip-text text-transparent">
+              Jumpy
+            </span>
+          </motion.h1>
+
+          {/* Tagline */}
+          <motion.p
+            className="text-xl md:text-2xl text-text-secondary mb-2"
+            style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+            New Jersey&apos;s #1 Bounce House Rentals
+          </motion.p>
+
+          <motion.p
+            className="text-lg text-text-muted mb-8"
+            style={{ fontFamily: "var(--font-caveat), cursive" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            GOOD. CLEAN. FUN. - Since 2007
+          </motion.p>
+
+          {/* Coming Soon Card */}
+          <motion.div
+            className="glass-card p-8 md:p-12 max-w-2xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <motion.span
+                className="w-3 h-3 bg-mint rounded-full"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <span
+                className="text-lg font-medium text-text-primary"
+                style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
+              >
+                New Website Coming Soon
+              </span>
+              <motion.span
+                className="w-3 h-3 bg-lavender rounded-full"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, delay: 0.5, repeat: Infinity }}
+              />
+            </div>
+
+            <p
+              className="text-text-secondary mb-8"
+              style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
+            >
+              We&apos;re building something magical! In the meantime, give us a
+              call to book your next party.
+            </p>
+
+            {/* CTA Button */}
+            <motion.a
+              href="tel:866-597-6625"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cta-primary to-cta-primary-hover text-white rounded-full font-bold text-lg shadow-lg"
+              style={{ fontFamily: "var(--font-baloo), sans-serif" }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+                boxShadow: [
+                  "0 0 20px rgba(124, 93, 250, 0.4)",
+                  "0 0 40px rgba(124, 93, 250, 0.6)",
+                  "0 0 20px rgba(124, 93, 250, 0.4)",
+                ],
+              }}
+              transition={{
+                boxShadow: {
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                },
+              }}
+            >
+              <Phone className="w-5 h-5" />
+              Call Now: 866-597-6625
+            </motion.a>
+          </motion.div>
+
+          {/* Contact Info */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <div className="flex items-center justify-center gap-2 text-text-secondary">
+              <Phone className="w-4 h-4 text-lavender" />
+              <span style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>
+                732-750-8810
+              </span>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-text-secondary">
+              <Mail className="w-4 h-4 text-peach" />
+              <a
+                href="mailto:info@jerseyjumpy.com"
+                className="hover:text-cta-primary transition-colors"
+                style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
+              >
+                info@jerseyjumpy.com
+              </a>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-text-secondary">
+              <MapPin className="w-4 h-4 text-mint" />
+              <span style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>
+                Iselin, NJ
+              </span>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Footer */}
+        <motion.footer
+          className="absolute bottom-6 left-0 right-0 text-center text-text-muted text-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <p>JerseyJumpy.com LLC - Family-owned since 2007</p>
+          <p className="mt-1">NJ DCA Certified | SIOTO Trained</p>
+        </motion.footer>
+      </div>
     </div>
   );
 }

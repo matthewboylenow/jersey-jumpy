@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jersey Jumpy - Website Rebuild
+
+A modern Next.js 15 website for Jersey Jumpy, New Jersey's premier bounce house and inflatable rental company.
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (App Router) with React 19
+- **Styling**: Tailwind CSS v4
+- **UI Components**: shadcn/ui (customized)
+- **Animations**: Framer Motion
+- **Database**: Neon PostgreSQL via Drizzle ORM
+- **Image Storage**: Vercel Blob
+- **Email**: Elastic Email
+- **Authentication**: NextAuth.js v5
+- **Hosting**: Vercel
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Environment Setup
+
+1. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Fill in the environment variables (from Vercel dashboard after connecting):
+   - `DATABASE_URL` - From Vercel's Neon integration
+   - `BLOB_READ_WRITE_TOKEN` - From Vercel's Blob integration
+   - `NEXTAUTH_SECRET` - Generate a secure random string
+   - `ELASTIC_EMAIL_API_KEY` - Your Elastic Email API key
+
+### Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Database Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Generate migrations
+npm run db:generate
 
-## Learn More
+# Push schema changes (development)
+npm run db:push
 
-To learn more about Next.js, take a look at the following resources:
+# Open Drizzle Studio
+npm run db:studio
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run seed script
+npm run db:seed
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Build
 
-## Deploy on Vercel
+```bash
+npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/                 # Next.js App Router pages
+│   ├── (public)/       # Public-facing pages
+│   ├── admin/          # Admin panel pages
+│   └── api/            # API routes
+├── components/         # React components
+│   ├── ui/            # Base UI components (shadcn)
+│   ├── layout/        # Header, Footer, etc.
+│   ├── home/          # Homepage sections
+│   ├── inflatables/   # Inflatable-related components
+│   └── admin/         # Admin panel components
+├── lib/               # Utilities and configurations
+│   ├── db/           # Database schema and client
+│   ├── auth.ts       # NextAuth configuration
+│   ├── email.ts      # Email helpers
+│   └── utils.ts      # Utility functions
+└── scripts/          # Migration and seed scripts
+```
+
+## Contact
+
+JerseyJumpy.com LLC
+- Toll Free: 866-597-6625
+- Local: 732-750-8810
+- Email: info@jerseyjumpy.com
