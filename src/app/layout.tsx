@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Baloo_2, DM_Sans, Caveat } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const baloo = Baloo_2({
   variable: "--font-baloo",
@@ -25,6 +27,10 @@ export const metadata: Metadata = {
   description: "Premium bounce house and inflatable rentals in New Jersey. Castle bouncers, combo units, wet/dry slides, and obstacle courses for your next party. Family-owned since 2007.",
   keywords: "bounce house rental, inflatable rental, New Jersey, party rental, bouncy castle, obstacle course, wet slide, dry slide",
   authors: [{ name: "JerseyJumpy.com LLC" }],
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "Jersey Jumpy - New Jersey's #1 Bounce House Rentals",
     description: "Premium bounce house and inflatable rentals in New Jersey. Castle bouncers, combo units, wet/dry slides, and obstacle courses for your next party.",
@@ -44,7 +50,9 @@ export default function RootLayout({
       <body
         className={`${baloo.variable} ${dmSans.variable} ${caveat.variable} antialiased`}
       >
-        {children}
+        <Header />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
       </body>
     </html>
   );
