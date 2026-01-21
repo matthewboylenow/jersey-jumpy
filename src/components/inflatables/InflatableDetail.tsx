@@ -73,6 +73,8 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
                 fill
                 className="object-cover"
                 priority
+                quality={90}
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">

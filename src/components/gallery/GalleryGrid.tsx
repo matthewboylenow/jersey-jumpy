@@ -84,6 +84,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                quality={85}
               />
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -139,6 +140,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                   fill
                   className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 1024px"
+                  quality={90}
                 />
               </div>
               {/* Caption */}

@@ -67,7 +67,8 @@ export function InflatableCard({ inflatable, index = 0 }: InflatableCardProps) {
                 alt={inflatable.name}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                quality={85}
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
