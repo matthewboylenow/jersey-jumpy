@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -20,6 +21,8 @@ const navLinks = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHomepage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +65,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   "px-4 py-2 rounded-full font-semibold text-sm transition-all duration-200",
-                  scrolled
+                  scrolled || !isHomepage
                     ? "text-text-primary hover:text-cta-primary hover:bg-lavender-light/50"
                     : "text-white hover:text-white hover:bg-white/20 drop-shadow-sm"
                 )}
