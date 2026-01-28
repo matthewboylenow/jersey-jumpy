@@ -9,12 +9,12 @@ interface TestimonialGridProps {
 }
 
 const avatarColors = [
-  "bg-lavender",
-  "bg-mint",
-  "bg-peach",
-  "bg-sky",
-  "bg-butter",
-  "bg-coral",
+  "bg-violet-500",
+  "bg-emerald-500",
+  "bg-orange-500",
+  "bg-sky-500",
+  "bg-amber-500",
+  "bg-rose-500",
 ];
 
 export function TestimonialGrid({ testimonials }: TestimonialGridProps) {
@@ -74,7 +74,7 @@ export function TestimonialGrid({ testimonials }: TestimonialGridProps) {
             {/* Featured Badge */}
             {testimonial.featured && (
               <div className="absolute top-4 right-4">
-                <span className="px-2 py-1 text-xs font-bold bg-butter/30 text-butter-dark rounded-full">
+                <span className="px-2 py-1 text-xs font-bold bg-amber-500 text-white rounded-full">
                   Featured
                 </span>
               </div>

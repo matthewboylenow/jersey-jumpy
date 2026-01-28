@@ -17,10 +17,10 @@ interface PackageItem {
 }
 
 const packageColors = [
-  { bg: "bg-lavender/20", border: "border-lavender/30", accent: "text-lavender-dark" },
-  { bg: "bg-mint/20", border: "border-mint/30", accent: "text-mint-dark" },
-  { bg: "bg-peach/20", border: "border-peach/30", accent: "text-peach-dark" },
-  { bg: "bg-sky/20", border: "border-sky/30", accent: "text-sky-dark" },
+  { bg: "bg-violet-100", border: "border-violet-200", accent: "text-violet-700", iconBg: "bg-violet-200" },
+  { bg: "bg-emerald-100", border: "border-emerald-200", accent: "text-emerald-700", iconBg: "bg-emerald-200" },
+  { bg: "bg-orange-100", border: "border-orange-200", accent: "text-orange-700", iconBg: "bg-orange-200" },
+  { bg: "bg-sky-100", border: "border-sky-200", accent: "text-sky-700", iconBg: "bg-sky-200" },
 ];
 
 export function PartyPackageCard({ package: pkg, index }: PartyPackageCardProps) {
@@ -40,7 +40,7 @@ export function PartyPackageCard({ package: pkg, index }: PartyPackageCardProps)
       <div className={`${color.bg} p-6 border-b ${color.border}`}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl ${color.bg} flex items-center justify-center`}>
+            <div className={`w-10 h-10 rounded-xl ${color.iconBg} flex items-center justify-center`}>
               <Package className={`w-5 h-5 ${color.accent}`} />
             </div>
             <h3 className="font-display font-bold text-xl text-text-primary">
@@ -62,7 +62,7 @@ export function PartyPackageCard({ package: pkg, index }: PartyPackageCardProps)
         <ul className="space-y-3">
           {items.map((item, i) => (
             <li key={i} className="flex items-start gap-3">
-              <div className={`w-5 h-5 rounded-full ${color.bg} flex items-center justify-center shrink-0 mt-0.5`}>
+              <div className={`w-5 h-5 rounded-full ${color.iconBg} flex items-center justify-center shrink-0 mt-0.5`}>
                 <Check className={`w-3 h-3 ${color.accent}`} />
               </div>
               <span className="text-text-secondary">

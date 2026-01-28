@@ -37,7 +37,7 @@ export function CategoryFilter({
             "px-4 py-2 rounded-full font-medium text-sm transition-all duration-200",
             !selectedCategory
               ? "bg-cta-primary text-white shadow-lg shadow-cta-primary/30"
-              : "bg-lavender-light/50 text-text-secondary hover:bg-lavender-light"
+              : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200"
           )}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -58,7 +58,7 @@ export function CategoryFilter({
                 "px-4 py-2 rounded-full font-medium text-sm transition-all duration-200 flex items-center gap-2",
                 isSelected
                   ? "bg-cta-primary text-white shadow-lg shadow-cta-primary/30"
-                  : "bg-lavender-light/50 text-text-secondary hover:bg-lavender-light"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200"
               )}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

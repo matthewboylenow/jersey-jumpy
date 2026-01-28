@@ -61,9 +61,10 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-4 py-2 rounded-full font-medium text-sm transition-all duration-200",
-                  "text-text-secondary hover:text-text-primary",
-                  "hover:bg-lavender-light/50"
+                  "px-4 py-2 rounded-full font-semibold text-sm transition-all duration-200",
+                  scrolled
+                    ? "text-text-primary hover:text-cta-primary hover:bg-lavender-light/50"
+                    : "text-white hover:text-white hover:bg-white/20 drop-shadow-sm"
                 )}
               >
                 {link.label}

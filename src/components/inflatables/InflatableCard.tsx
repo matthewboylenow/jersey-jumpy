@@ -12,11 +12,11 @@ interface InflatableCardProps {
 }
 
 const categoryColors: Record<string, { bg: string; text: string }> = {
-  "13x13-bouncers": { bg: "bg-lavender", text: "text-lavender-dark" },
-  "castle-bouncers": { bg: "bg-peach", text: "text-peach-dark" },
-  "combo-bouncers": { bg: "bg-mint", text: "text-mint-dark" },
-  "wet-dry-slides": { bg: "bg-sky", text: "text-sky-dark" },
-  "obstacle-courses": { bg: "bg-coral", text: "text-coral-dark" },
+  "13x13-bouncers": { bg: "bg-violet-600", text: "text-white" },
+  "castle-bouncers": { bg: "bg-orange-500", text: "text-white" },
+  "combo-bouncers": { bg: "bg-emerald-600", text: "text-white" },
+  "wet-dry-slides": { bg: "bg-sky-600", text: "text-white" },
+  "obstacle-courses": { bg: "bg-rose-600", text: "text-white" },
 };
 
 const categoryLabels: Record<string, string> = {
@@ -60,15 +60,15 @@ export function InflatableCard({ inflatable, index = 0 }: InflatableCardProps) {
           transition={{ type: "spring", stiffness: 300 }}
         >
           {/* Image Container */}
-          <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-lavender-light/50 to-peach-light/50">
+          <div className="relative h-44 sm:h-48 overflow-hidden bg-gradient-to-br from-lavender-light/50 to-peach-light/50">
             {inflatable.mainImageUrl ? (
               <Image
                 src={imageUrl}
                 alt={inflatable.name}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                quality={85}
+                className="object-contain transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 640px) 280px, (max-width: 1024px) 300px, 280px"
+                quality={95}
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">

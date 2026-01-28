@@ -30,11 +30,11 @@ const categoryLabels: Record<string, string> = {
 };
 
 const categoryColors: Record<string, string> = {
-  "13x13-bouncers": "bg-lavender text-lavender-dark",
-  "castle-bouncers": "bg-peach text-peach-dark",
-  "combo-bouncers": "bg-mint text-mint-dark",
-  "wet-dry-slides": "bg-sky text-sky-dark",
-  "obstacle-courses": "bg-coral text-coral-dark",
+  "13x13-bouncers": "bg-violet-600 text-white",
+  "castle-bouncers": "bg-orange-500 text-white",
+  "combo-bouncers": "bg-emerald-600 text-white",
+  "wet-dry-slides": "bg-sky-600 text-white",
+  "obstacle-courses": "bg-rose-600 text-white",
 };
 
 export function InflatableDetail({ inflatable }: InflatableDetailProps) {
@@ -65,16 +65,16 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br from-lavender-light/50 to-peach-light/50 shadow-card">
+          <div className="relative aspect-[4/3] max-w-lg mx-auto lg:mx-0 rounded-3xl overflow-hidden bg-gradient-to-br from-lavender-light/50 to-peach-light/50 shadow-card">
             {inflatable.mainImageUrl ? (
               <Image
                 src={inflatable.mainImageUrl}
                 alt={inflatable.name}
                 fill
-                className="object-cover"
+                className="object-contain"
                 priority
-                quality={90}
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                quality={95}
+                sizes="(max-width: 1024px) 500px, 500px"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
@@ -133,8 +133,8 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
           <div className="grid grid-cols-2 gap-4 mb-8">
             {inflatable.width && inflatable.length && (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-lavender/20 flex items-center justify-center">
-                  <Ruler className="w-5 h-5 text-lavender-dark" />
+                <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center">
+                  <Ruler className="w-5 h-5 text-violet-700" />
                 </div>
                 <div>
                   <p className="text-xs text-text-muted">Size</p>
@@ -148,8 +148,8 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
 
             {inflatable.spaceRequired && (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-mint/20 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-mint-dark" />
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-emerald-700" />
                 </div>
                 <div>
                   <p className="text-xs text-text-muted">Space Needed</p>
@@ -162,8 +162,8 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
 
             {inflatable.canUseWater && (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-sky/20 flex items-center justify-center">
-                  <Droplets className="w-5 h-5 text-sky-dark" />
+                <div className="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center">
+                  <Droplets className="w-5 h-5 text-sky-700" />
                 </div>
                 <div>
                   <p className="text-xs text-text-muted">Water Use</p>
@@ -176,8 +176,8 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
 
             {inflatable.powerRequirement && (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-butter/20 flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-butter-dark" />
+                <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-amber-700" />
                 </div>
                 <div>
                   <p className="text-xs text-text-muted">Power</p>
@@ -192,27 +192,27 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
           {/* Features */}
           <div className="flex flex-wrap gap-2 mb-8">
             {inflatable.hasSlide && (
-              <Badge variant="secondary" className="bg-peach/20 text-peach-dark">
+              <Badge variant="secondary" className="bg-orange-100 text-orange-800 border border-orange-200">
                 Has Slide
               </Badge>
             )}
             {inflatable.hasPool && (
-              <Badge variant="secondary" className="bg-sky/20 text-sky-dark">
+              <Badge variant="secondary" className="bg-sky-100 text-sky-800 border border-sky-200">
                 Has Pool
               </Badge>
             )}
             {inflatable.hasBasketballHoop && (
-              <Badge variant="secondary" className="bg-coral/20 text-coral-dark">
+              <Badge variant="secondary" className="bg-rose-100 text-rose-800 border border-rose-200">
                 Basketball Hoop
               </Badge>
             )}
             {inflatable.hasClimbingWall && (
-              <Badge variant="secondary" className="bg-mint/20 text-mint-dark">
+              <Badge variant="secondary" className="bg-emerald-100 text-emerald-800 border border-emerald-200">
                 Climbing Wall
               </Badge>
             )}
             {inflatable.adultsAllowed && (
-              <Badge variant="secondary" className="bg-lavender/20 text-lavender-dark">
+              <Badge variant="secondary" className="bg-violet-100 text-violet-800 border border-violet-200">
                 Adults Welcome
               </Badge>
             )}

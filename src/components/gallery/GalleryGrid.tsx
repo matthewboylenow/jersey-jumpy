@@ -27,11 +27,11 @@ const categoryLabels: Record<string, string> = {
 };
 
 const categoryColors: Record<string, string> = {
-  "13x13-bouncers": "bg-lavender/80",
-  "castle-bouncers": "bg-peach/80",
-  "combo-bouncers": "bg-mint/80",
-  "wet-dry-slides": "bg-sky/80",
-  "obstacle-courses": "bg-coral/80",
+  "13x13-bouncers": "bg-violet-600",
+  "castle-bouncers": "bg-orange-500",
+  "combo-bouncers": "bg-emerald-600",
+  "wet-dry-slides": "bg-sky-600",
+  "obstacle-courses": "bg-rose-600",
 };
 
 export function GalleryGrid({ images }: GalleryGridProps) {
@@ -82,9 +82,9 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 src={image.url}
                 alt={image.name}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                quality={85}
+                className="object-contain bg-gradient-to-br from-lavender-light/30 to-peach-light/30 transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 180px, (max-width: 1024px) 220px, 250px"
+                quality={95}
               />
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -133,14 +133,14 @@ export function GalleryGrid({ images }: GalleryGridProps) {
               className="relative max-w-4xl max-h-[80vh] w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative aspect-video rounded-2xl overflow-hidden">
+              <div className="relative aspect-[4/3] max-w-2xl mx-auto rounded-2xl overflow-hidden bg-black/50">
                 <Image
                   src={selectedImage.url}
                   alt={selectedImage.name}
                   fill
                   className="object-contain"
-                  sizes="(max-width: 1024px) 100vw, 1024px"
-                  quality={90}
+                  sizes="(max-width: 1024px) 600px, 700px"
+                  quality={95}
                 />
               </div>
               {/* Caption */}
