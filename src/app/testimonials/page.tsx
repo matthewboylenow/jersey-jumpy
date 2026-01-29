@@ -8,9 +8,16 @@ import { Star, Phone } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Customer Reviews & Testimonials | Jersey Jumpy",
+  title: "Customer Testimonials",
   description:
-    "Read what our customers say about Jersey Jumpy. Real reviews from real families across New Jersey who trusted us for their parties and events.",
+    "Read testimonials from our happy customers across New Jersey! See why families, schools, and businesses trust Jersey Jumpy for their bounce house rentals and inflatable party equipment.",
+  openGraph: {
+    title: "Customer Testimonials | Jersey Jumpy",
+    description: "Read what our customers say about Jersey Jumpy. Real reviews from real families across New Jersey.",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/testimonials",
+  },
 };
 
 async function getTestimonials() {

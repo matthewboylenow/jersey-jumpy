@@ -4,9 +4,16 @@ import { Shield, AlertTriangle, Users, Sun, CloudRain, Phone } from "lucide-reac
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Safety Policies & Rules | Jersey Jumpy",
+  title: "Safety Policies & Rules",
   description:
-    "Safety is our top priority. Read our inflatable rental safety policies, rules, and guidelines for a fun and safe experience.",
+    "Safety is our top priority at Jersey Jumpy! Read our inflatable rental safety policies, rules, and guidelines to ensure a fun and safe bounce house experience for children at your New Jersey event.",
+  openGraph: {
+    title: "Safety Policies & Rules | Jersey Jumpy",
+    description: "Safety is our top priority. Read our inflatable rental safety policies and guidelines for a fun, safe experience.",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/policies",
+  },
 };
 
 const safetyRules = [

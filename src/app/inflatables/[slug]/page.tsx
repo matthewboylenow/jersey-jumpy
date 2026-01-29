@@ -46,15 +46,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const categoryNames: Record<string, string> = {
+    "13x13-bouncers": "bounce house",
+    "castle-bouncers": "castle bouncer",
+    "combo-bouncers": "combo bouncer",
+    "wet-dry-slides": "water slide",
+    "obstacle-courses": "obstacle course",
+  };
+  const categoryName = categoryNames[inflatable.category] || "inflatable";
+
+  const defaultDescription = `Rent the ${inflatable.name} ${categoryName} for your New Jersey party! ${inflatable.subtitle || ""} Professional delivery, setup & pickup throughout NJ. Book today!`;
+
   return {
-    title: inflatable.metaTitle || `${inflatable.name} | Jersey Jumpy`,
-    description:
-      inflatable.metaDescription ||
-      `Rent the ${inflatable.name} for your next party. ${inflatable.subtitle || ""} Professional delivery across New Jersey.`,
+    title: inflatable.metaTitle || `${inflatable.name} Rental`,
+    description: inflatable.metaDescription || defaultDescription,
     openGraph: {
-      title: `${inflatable.name} | Jersey Jumpy`,
-      description: inflatable.description || `Rent the ${inflatable.name} for your next party.`,
+      title: `${inflatable.name} Rental | Jersey Jumpy`,
+      description: inflatable.metaDescription || defaultDescription,
       images: inflatable.mainImageUrl ? [inflatable.mainImageUrl] : undefined,
+    },
+    alternates: {
+      canonical: `https://jerseyjumpy.com/inflatables/${slug}`,
     },
   };
 }

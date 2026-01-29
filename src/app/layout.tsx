@@ -23,20 +23,45 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Jersey Jumpy - New Jersey's #1 Bounce House Rentals",
-  description: "Premium bounce house and inflatable rentals in New Jersey. Castle bouncers, combo units, wet/dry slides, and obstacle courses for your next party. Family-owned since 2007.",
-  keywords: "bounce house rental, inflatable rental, New Jersey, party rental, bouncy castle, obstacle course, wet slide, dry slide",
+  metadataBase: new URL("https://jerseyjumpy.com"),
+  title: {
+    default: "Jersey Jumpy | #1 Bounce House Rentals in New Jersey",
+    template: "%s | Jersey Jumpy",
+  },
+  description: "Family owned and operated, Jersey Jumpy provides inflatable slide, obstacle course and bounce house rentals throughout New Jersey. Perfect for birthday parties, festivals, fundraisers, sales promotions and carnivals!",
+  keywords: "bounce house rental NJ, inflatable rental New Jersey, party rental NJ, bouncy castle rental, obstacle course rental, wet slide rental, dry slide rental, birthday party rentals NJ, carnival rentals New Jersey",
   authors: [{ name: "JerseyJumpy.com LLC" }],
   icons: {
     icon: "/favicon.png",
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "Jersey Jumpy - New Jersey's #1 Bounce House Rentals",
-    description: "Premium bounce house and inflatable rentals in New Jersey. Castle bouncers, combo units, wet/dry slides, and obstacle courses for your next party.",
+    title: "Jersey Jumpy | #1 Bounce House Rentals in New Jersey",
+    description: "Family owned and operated, Jersey Jumpy provides inflatable slide, obstacle course and bounce house rentals throughout New Jersey. Perfect for birthday parties, festivals, fundraisers, sales promotions and carnivals!",
+    url: "https://jerseyjumpy.com",
     type: "website",
     locale: "en_US",
     siteName: "Jersey Jumpy",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Jersey Jumpy Bounce House Rentals",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jersey Jumpy | #1 Bounce House Rentals in New Jersey",
+    description: "Family owned and operated bounce house rentals throughout New Jersey. Perfect for birthday parties, festivals, and events!",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com",
   },
 };
 

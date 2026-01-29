@@ -8,9 +8,16 @@ import { Phone, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions | Jersey Jumpy",
+  title: "Bounce House Rentals FAQs",
   description:
-    "Find answers to common questions about bounce house rentals, delivery, setup, safety, and more. Jersey Jumpy - NJ's trusted inflatable rental company.",
+    "Read our FAQ page for more information regarding Jersey Jumpy's bounce house rentals in New Jersey. Find answers about delivery, setup, pricing, safety, and more. Contact us with any further questions.",
+  openGraph: {
+    title: "Bounce House Rentals FAQs | Jersey Jumpy",
+    description: "Find answers to common questions about bounce house rentals, delivery, setup, safety, and pricing in New Jersey.",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/faqs",
+  },
 };
 
 async function getFAQs() {

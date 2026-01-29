@@ -4,9 +4,16 @@ import { Award, Shield, CheckCircle, ExternalLink, Phone } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Certifications & Training | Jersey Jumpy",
+  title: "Certifications",
   description:
-    "Jersey Jumpy is NJ DCA certified and SIOTO trained. Learn about our safety certifications, insurance, and professional training.",
+    "Jersey Jumpy is fully approved, permitted, and regularly inspected by the New Jersey Department of Community Affairs. We are NJ DCA certified, SIOTO trained, and fully insured for your peace of mind.",
+  openGraph: {
+    title: "Certifications | Jersey Jumpy",
+    description: "Jersey Jumpy is NJ DCA certified and SIOTO trained. Learn about our safety certifications, insurance, and professional training.",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/certifications",
+  },
 };
 
 const certifications = [

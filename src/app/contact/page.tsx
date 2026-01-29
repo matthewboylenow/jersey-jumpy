@@ -7,9 +7,16 @@ import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Jersey Jumpy",
+  title: "Contact & Book",
   description:
-    "Request a quote for your next party or event. Professional bounce house and inflatable delivery across New Jersey.",
+    "Contact Jersey Jumpy to book your bounce house rental in New Jersey! Call us at 866-597-6625 or request a quote online. Professional delivery throughout NJ for birthday parties, school events, and corporate functions.",
+  openGraph: {
+    title: "Contact & Book | Jersey Jumpy",
+    description: "Contact Jersey Jumpy to book your bounce house rental in New Jersey! Call 866-597-6625 for professional inflatable delivery.",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/contact",
+  },
 };
 
 async function getInflatableOptions() {

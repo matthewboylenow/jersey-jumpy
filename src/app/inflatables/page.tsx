@@ -6,9 +6,16 @@ import { InflatablesGrid } from "@/components/inflatables/InflatablesGrid";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 
 export const metadata: Metadata = {
-  title: "Bounce Houses & Inflatables | Jersey Jumpy",
+  title: "Slide, Obstacle Course & Bounce House Rentals",
   description:
-    "Browse our collection of bounce houses, castle bouncers, combo units, wet/dry slides, and obstacle courses. Professional delivery across New Jersey.",
+    "View our selection of inflatable slide, obstacle course and bounce house rentals available throughout New Jersey. Great for birthday parties, street fairs, fundraisers and school events!",
+  openGraph: {
+    title: "Slide, Obstacle Course & Bounce House Rentals | Jersey Jumpy",
+    description: "View our selection of inflatable slide, obstacle course and bounce house rentals available throughout New Jersey. Great for birthday parties, street fairs and fundraisers!",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/inflatables",
+  },
 };
 
 async function getInflatables() {

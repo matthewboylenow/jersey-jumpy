@@ -8,9 +8,16 @@ import { Phone, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Party Packages | Jersey Jumpy",
+  title: "Bounce House Rental Party Packages",
   description:
-    "Save big with our party packages! Bundle multiple inflatables including obstacle courses, slides, and bounce houses for your next event.",
+    "Wow your guests at your next event with multiple bounce house rentals! Our bounce house rental party packages are perfect for those looking for a variety of bounce houses to create the ultimate fun at school field days, corporate events, and large parties in New Jersey.",
+  openGraph: {
+    title: "Bounce House Rental Party Packages | Jersey Jumpy",
+    description: "Wow your guests at your next event with multiple bounce house rentals! Our party packages combine obstacle courses, slides, and castles for maximum fun.",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/party-packages",
+  },
 };
 
 async function getPackages() {

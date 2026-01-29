@@ -8,9 +8,16 @@ import { Camera, Phone } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Photo Gallery | Jersey Jumpy",
+  title: "Photo Gallery",
   description:
-    "Browse photos of our bounce houses, slides, and obstacle courses in action. See Jersey Jumpy inflatables at real New Jersey events!",
+    "Browse photos of our bounce houses, water slides, and obstacle courses at real New Jersey events! See our inflatables in action at birthday parties, school field days, and corporate events throughout NJ.",
+  openGraph: {
+    title: "Photo Gallery | Jersey Jumpy",
+    description: "See our bounce houses, slides, and obstacle courses in action at real New Jersey events!",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/gallery",
+  },
 };
 
 async function getGalleryImages() {

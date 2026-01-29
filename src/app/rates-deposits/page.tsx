@@ -4,9 +4,16 @@ import { DollarSign, Phone, Info, Clock, Zap } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Rates & Deposits | Jersey Jumpy",
+  title: "Rates & Deposits",
   description:
-    "View our inflatable rental pricing, deposit requirements, and rental terms. Transparent pricing with no hidden fees.",
+    "View Jersey Jumpy's bounce house rental rates and deposit information. Our inflatables rent from $350-$800 throughout New Jersey. Transparent pricing with no hidden fees for birthday parties, school events, and corporate functions.",
+  openGraph: {
+    title: "Rates & Deposits | Jersey Jumpy",
+    description: "View our inflatable rental pricing and deposit requirements. Bounce houses start at $350 with delivery throughout New Jersey.",
+  },
+  alternates: {
+    canonical: "https://jerseyjumpy.com/rates-deposits",
+  },
 };
 
 const pricingData = [
