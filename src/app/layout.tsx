@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, DM_Sans, Caveat } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 
 const baloo = Baloo_2({
   variable: "--font-baloo",
@@ -75,9 +73,7 @@ export default function RootLayout({
       <body
         className={`${baloo.variable} ${dmSans.variable} ${caveat.variable} antialiased`}
       >
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
