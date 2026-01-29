@@ -56,6 +56,7 @@ export const inflatables = pgTable("inflatables", {
 
   // Images
   mainImageUrl: text("main_image_url"),
+  videoUrl: text("video_url"),
   galleryImageUrls: text("gallery_image_urls").array(),
 
   // SEO

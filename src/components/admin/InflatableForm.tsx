@@ -17,6 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { MediaUpload } from "@/components/admin/MediaUpload";
+import { GalleryManager } from "@/components/admin/GalleryManager";
 import { Inflatable } from "@/lib/db/schema";
 
 interface FormData {
@@ -49,6 +51,10 @@ interface FormData {
   price?: number;
   priceNote?: string;
   mainImageUrl?: string;
+  videoUrl?: string;
+  galleryImageUrls?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
   isActive: boolean;
   sortOrder: number;
 }
@@ -68,6 +74,15 @@ const categories = [
 export function InflatableForm({ inflatable }: InflatableFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [mainImageUrl, setMainImageUrl] = useState<string | undefined>(
+    inflatable?.mainImageUrl || undefined
+  );
+  const [videoUrl, setVideoUrl] = useState<string | undefined>(
+    inflatable?.videoUrl || undefined
+  );
+  const [galleryImageUrls, setGalleryImageUrls] = useState<string[]>(
+    inflatable?.galleryImageUrls || []
+  );
 
   const {
     register,
@@ -106,10 +121,17 @@ export function InflatableForm({ inflatable }: InflatableFormProps) {
       price: inflatable?.price || undefined,
       priceNote: inflatable?.priceNote || "",
       mainImageUrl: inflatable?.mainImageUrl || "",
+      videoUrl: inflatable?.videoUrl || "",
+      galleryImageUrls: inflatable?.galleryImageUrls || [],
+      metaTitle: inflatable?.metaTitle || "",
+      metaDescription: inflatable?.metaDescription || "",
       isActive: inflatable?.isActive ?? true,
       sortOrder: inflatable?.sortOrder || 0,
     },
   });
+
+  const metaTitle = watch("metaTitle") || "";
+  const metaDescription = watch("metaDescription") || "";
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -122,7 +144,12 @@ export function InflatableForm({ inflatable }: InflatableFormProps) {
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          mainImageUrl,
+          videoUrl,
+          galleryImageUrls,
+        }),
       });
 
       if (response.ok) {
@@ -372,19 +399,71 @@ export function InflatableForm({ inflatable }: InflatableFormProps) {
         </div>
       </div>
 
-      {/* Image */}
+      {/* Media */}
       <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-6">
-        <h2 className="text-lg font-semibold text-slate-900">Image</h2>
+        <h2 className="text-lg font-semibold text-slate-900">Media</h2>
+
+        <MediaUpload
+          value={mainImageUrl}
+          onChange={setMainImageUrl}
+          type="image"
+          label="Main Image"
+          required
+        />
+
+        <MediaUpload
+          value={videoUrl}
+          onChange={setVideoUrl}
+          type="video"
+          label="Video (Optional)"
+        />
+
+        <GalleryManager
+          value={galleryImageUrls}
+          onChange={setGalleryImageUrls}
+          maxImages={10}
+          label="Gallery Images"
+        />
+      </div>
+
+      {/* SEO */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-6">
+        <h2 className="text-lg font-semibold text-slate-900">SEO</h2>
 
         <div className="space-y-2">
-          <Label htmlFor="mainImageUrl">Main Image URL</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="metaTitle">Meta Title</Label>
+            <span className={`text-xs ${metaTitle.length > 60 ? "text-red-600" : "text-slate-500"}`}>
+              {metaTitle.length}/60
+            </span>
+          </div>
           <Input
-            id="mainImageUrl"
-            {...register("mainImageUrl")}
-            placeholder="https://..."
+            id="metaTitle"
+            {...register("metaTitle")}
+            placeholder="SEO title for search engines"
+            maxLength={60}
           />
-          <p className="text-sm text-slate-500">
-            Enter the URL of the main image for this inflatable
+          <p className="text-xs text-slate-500">
+            Leave empty to use the inflatable name
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="metaDescription">Meta Description</Label>
+            <span className={`text-xs ${metaDescription.length > 160 ? "text-red-600" : "text-slate-500"}`}>
+              {metaDescription.length}/160
+            </span>
+          </div>
+          <Textarea
+            id="metaDescription"
+            {...register("metaDescription")}
+            rows={3}
+            placeholder="Brief description for search engine results"
+            maxLength={160}
+          />
+          <p className="text-xs text-slate-500">
+            Leave empty to use the inflatable description
           </p>
         </div>
       </div>

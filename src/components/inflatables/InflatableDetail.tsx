@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Phone,
   ArrowLeft,
@@ -11,6 +12,9 @@ import {
   Droplets,
   Zap,
   Shield,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -40,6 +44,30 @@ const categoryColors: Record<string, string> = {
 export function InflatableDetail({ inflatable }: InflatableDetailProps) {
   const categoryLabel = categoryLabels[inflatable.category] || inflatable.category;
   const categoryColor = categoryColors[inflatable.category] || "bg-lavender text-lavender-dark";
+
+  // Lightbox state for gallery
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const galleryImages = inflatable.galleryImageUrls || [];
+  const hasGallery = galleryImages.length > 0;
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
+
+  const goToPrevious = () => {
+    setLightboxIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setLightboxIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <div className="container mx-auto px-4">
@@ -87,6 +115,32 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
               {categoryLabel}
             </Badge>
           </div>
+
+          {/* Video Section */}
+          {inflatable.videoUrl && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="mt-6 max-w-lg mx-auto lg:mx-0"
+            >
+              <div className="relative rounded-2xl overflow-hidden shadow-card bg-slate-900">
+                <video
+                  src={inflatable.videoUrl}
+                  poster={inflatable.mainImageUrl || undefined}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                  className="w-full aspect-video object-contain"
+                />
+              </div>
+              <p className="text-center text-sm text-text-muted mt-2">
+                Watch {inflatable.name} in action
+              </p>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Info Section */}
@@ -247,6 +301,39 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
         </motion.div>
       </div>
 
+      {/* Gallery Section */}
+      {hasGallery && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mt-16"
+        >
+          <h2 className="font-display font-bold text-2xl text-text-primary mb-6">
+            More Photos
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {galleryImages.map((imageUrl, index) => (
+              <button
+                key={imageUrl}
+                onClick={() => openLightbox(index)}
+                className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 group cursor-pointer"
+              >
+                <Image
+                  src={imageUrl}
+                  alt={`${inflatable.name} - Photo ${index + 1}`}
+                  fill
+                  className="object-cover transition-transform group-hover:scale-105"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
       {/* Detailed Specs */}
       {(inflatable.capacityAges2to4 ||
         inflatable.capacityAges4to7 ||
@@ -343,6 +430,77 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
           </div>
         </motion.div>
       )}
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+            onClick={closeLightbox}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 text-white/80 hover:text-white p-2"
+            >
+              <X className="w-8 h-8" />
+            </button>
+
+            {/* Previous Button */}
+            {galleryImages.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToPrevious();
+                }}
+                className="absolute left-4 text-white/80 hover:text-white p-2"
+              >
+                <ChevronLeft className="w-10 h-10" />
+              </button>
+            )}
+
+            {/* Image */}
+            <motion.div
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="relative w-full max-w-4xl max-h-[80vh] aspect-[4/3] mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={galleryImages[lightboxIndex]}
+                alt={`${inflatable.name} - Photo ${lightboxIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                quality={95}
+              />
+            </motion.div>
+
+            {/* Next Button */}
+            {galleryImages.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToNext();
+                }}
+                className="absolute right-4 text-white/80 hover:text-white p-2"
+              >
+                <ChevronRight className="w-10 h-10" />
+              </button>
+            )}
+
+            {/* Image Counter */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm">
+              {lightboxIndex + 1} / {galleryImages.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
