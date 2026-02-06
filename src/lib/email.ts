@@ -1,3 +1,6 @@
+import { getDb } from "@/lib/db";
+import { emailLogs } from "@/lib/db/schema";
+
 const ELASTIC_EMAIL_API_URL = "https://api.elasticemail.com/v4/emails/transactional";
 
 interface SendEmailParams {
@@ -7,37 +10,110 @@ interface SendEmailParams {
   replyTo?: string;
 }
 
-export async function sendEmail({ to, subject, html, replyTo }: SendEmailParams) {
-  const response = await fetch(ELASTIC_EMAIL_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-ElasticEmail-ApiKey": process.env.ELASTIC_EMAIL_API_KEY!,
-    },
-    body: JSON.stringify({
-      Recipients: {
-        To: [to],
-      },
-      Content: {
-        From: process.env.ELASTIC_EMAIL_FROM || "info@jerseyjumpy.com",
-        ReplyTo: replyTo,
-        Subject: subject,
-        Body: [
-          {
-            ContentType: "HTML",
-            Content: html,
-          },
-        ],
-      },
-    }),
-  });
+interface EmailLogParams {
+  emailType: string;
+  relatedInquiryId?: number;
+}
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Failed to send email: ${error}`);
+interface ElasticEmailResponse {
+  MessageID?: string;
+  TransactionID?: string;
+}
+
+async function logEmail(
+  params: SendEmailParams,
+  logParams: EmailLogParams,
+  status: "sent" | "failed",
+  response?: ElasticEmailResponse,
+  errorMessage?: string
+) {
+  try {
+    const db = getDb();
+    await db.insert(emailLogs).values({
+      recipient: params.to,
+      subject: params.subject,
+      status,
+      errorMessage: errorMessage || null,
+      messageId: response?.MessageID || null,
+      transactionId: response?.TransactionID || null,
+      emailType: logParams.emailType,
+      relatedInquiryId: logParams.relatedInquiryId || null,
+    });
+  } catch (err) {
+    // Don't let logging failures break email sending
+    console.error("Failed to log email:", err);
   }
+}
 
-  return response.json();
+export async function sendEmail(
+  { to, subject, html, replyTo }: SendEmailParams,
+  logParams: EmailLogParams = { emailType: "unknown" }
+) {
+  try {
+    const response = await fetch(ELASTIC_EMAIL_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-ElasticEmail-ApiKey": process.env.ELASTIC_EMAIL_API_KEY!,
+      },
+      body: JSON.stringify({
+        Recipients: {
+          To: [to],
+        },
+        Content: {
+          From: process.env.ELASTIC_EMAIL_FROM || "info@jerseyjumpy.com",
+          ReplyTo: replyTo,
+          Subject: subject,
+          Body: [
+            {
+              ContentType: "HTML",
+              Content: html,
+            },
+          ],
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(`Failed to send email: ${errorText}`);
+
+      // Log the failed attempt
+      await logEmail(
+        { to, subject, html, replyTo },
+        logParams,
+        "failed",
+        undefined,
+        errorText
+      );
+
+      throw error;
+    }
+
+    const result: ElasticEmailResponse = await response.json();
+
+    // Log the successful send
+    await logEmail({ to, subject, html, replyTo }, logParams, "sent", result);
+
+    return result;
+  } catch (error) {
+    // If it's already our error, re-throw it (already logged)
+    if (error instanceof Error && error.message.startsWith("Failed to send email:")) {
+      throw error;
+    }
+
+    // Log unexpected errors
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    await logEmail(
+      { to, subject, html, replyTo },
+      logParams,
+      "failed",
+      undefined,
+      errorMessage
+    );
+
+    throw error;
+  }
 }
 
 interface ContactFormData {
@@ -56,13 +132,17 @@ interface ContactFormData {
   eventDetails?: string;
 }
 
-export async function sendContactNotification(formData: ContactFormData) {
+export async function sendContactNotification(
+  formData: ContactFormData,
+  inquiryId?: number
+) {
   // Email to Jersey Jumpy team
-  await sendEmail({
-    to: process.env.CONTACT_EMAIL_TO || "info@jerseyjumpy.com",
-    subject: `New Booking Request: ${formData.name} - ${formData.requestedJumpy || "General Inquiry"}`,
-    replyTo: formData.email,
-    html: `
+  await sendEmail(
+    {
+      to: process.env.CONTACT_EMAIL_TO || "info@jerseyjumpy.com",
+      subject: `New Booking Request: ${formData.name} - ${formData.requestedJumpy || "General Inquiry"}`,
+      replyTo: formData.email,
+      html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #7C5DFA;">New Booking Request</h2>
 
@@ -96,13 +176,16 @@ export async function sendContactNotification(formData: ContactFormData) {
         </div>
       </div>
     `,
-  });
+    },
+    { emailType: "contact_notification", relatedInquiryId: inquiryId }
+  );
 
   // Confirmation email to customer
-  await sendEmail({
-    to: formData.email,
-    subject: "Thanks for contacting Jersey Jumpy!",
-    html: `
+  await sendEmail(
+    {
+      to: formData.email,
+      subject: "Thanks for contacting Jersey Jumpy!",
+      html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #7C5DFA;">We Got Your Request!</h2>
 
@@ -132,5 +215,7 @@ export async function sendContactNotification(formData: ContactFormData) {
         </p>
       </div>
     `,
-  });
+    },
+    { emailType: "contact_confirmation", relatedInquiryId: inquiryId }
+  );
 }

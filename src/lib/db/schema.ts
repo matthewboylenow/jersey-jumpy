@@ -165,6 +165,32 @@ export const adminUsers = pgTable("admin_users", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Email Logs - tracks all outgoing emails
+export const emailLogs = pgTable("email_logs", {
+  id: serial("id").primaryKey(),
+
+  // Email details
+  recipient: varchar("recipient", { length: 255 }).notNull(),
+  subject: varchar("subject", { length: 500 }).notNull(),
+
+  // Status: 'sent', 'failed', 'pending'
+  status: varchar("status", { length: 50 }).notNull(),
+
+  // Error message if failed
+  errorMessage: text("error_message"),
+
+  // Elastic Email response data
+  messageId: varchar("message_id", { length: 255 }),
+  transactionId: varchar("transaction_id", { length: 255 }),
+
+  // Context - what triggered this email
+  emailType: varchar("email_type", { length: 100 }).notNull(), // 'contact_notification', 'contact_confirmation', etc.
+  relatedInquiryId: integer("related_inquiry_id"),
+
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Type exports for use in the application
 export type Inflatable = typeof inflatables.$inferSelect;
 export type NewInflatable = typeof inflatables.$inferInsert;
@@ -189,3 +215,6 @@ export type NewSetting = typeof settings.$inferInsert;
 
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type NewAdminUser = typeof adminUsers.$inferInsert;
+
+export type EmailLog = typeof emailLogs.$inferSelect;
+export type NewEmailLog = typeof emailLogs.$inferInsert;

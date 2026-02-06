@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     // Save to database
     const db = getDb();
-    await db.insert(inquiries).values({
+    const [inserted] = await db.insert(inquiries).values({
       name,
       email,
       phone,
@@ -46,24 +46,27 @@ export async function POST(request: NextRequest) {
       referralSource: referralSource || null,
       eventDetails: eventDetails || null,
       status: "new",
-    });
+    }).returning({ id: inquiries.id });
 
     // Send email notification (if configured)
     try {
-      await sendContactNotification({
-        name,
-        email,
-        phone,
-        address,
-        city,
-        state,
-        zip,
-        requestedDate,
-        requestedTime,
-        requestedJumpy,
-        referralSource,
-        eventDetails,
-      });
+      await sendContactNotification(
+        {
+          name,
+          email,
+          phone,
+          address,
+          city,
+          state,
+          zip,
+          requestedDate,
+          requestedTime,
+          requestedJumpy,
+          referralSource,
+          eventDetails,
+        },
+        inserted.id
+      );
     } catch (emailError) {
       // Log email error but don't fail the request
       console.error("Failed to send email notification:", emailError);
