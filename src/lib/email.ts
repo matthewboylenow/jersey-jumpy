@@ -1,7 +1,15 @@
+import { Resend } from "resend";
 import { getDb } from "@/lib/db";
 import { emailLogs } from "@/lib/db/schema";
 
-const ELASTIC_EMAIL_API_URL = "https://api.elasticemail.com/v4/emails/transactional";
+let resendClient: Resend | null = null;
+
+function getResend() {
+  if (!resendClient) {
+    resendClient = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendClient;
+}
 
 interface SendEmailParams {
   to: string;
@@ -15,16 +23,11 @@ interface EmailLogParams {
   relatedInquiryId?: number;
 }
 
-interface ElasticEmailResponse {
-  MessageID?: string;
-  TransactionID?: string;
-}
-
 async function logEmail(
   params: SendEmailParams,
   logParams: EmailLogParams,
   status: "sent" | "failed",
-  response?: ElasticEmailResponse,
+  messageId?: string,
   errorMessage?: string
 ) {
   try {
@@ -34,8 +37,8 @@ async function logEmail(
       subject: params.subject,
       status,
       errorMessage: errorMessage || null,
-      messageId: response?.MessageID || null,
-      transactionId: response?.TransactionID || null,
+      messageId: messageId || null,
+      transactionId: null,
       emailType: logParams.emailType,
       relatedInquiryId: logParams.relatedInquiryId || null,
     });
@@ -49,71 +52,35 @@ export async function sendEmail(
   { to, subject, html, replyTo }: SendEmailParams,
   logParams: EmailLogParams = { emailType: "unknown" }
 ) {
-  try {
-    const response = await fetch(ELASTIC_EMAIL_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-ElasticEmail-ApiKey": process.env.ELASTIC_EMAIL_API_KEY!,
-      },
-      body: JSON.stringify({
-        Recipients: {
-          To: [to],
-        },
-        Content: {
-          From: process.env.ELASTIC_EMAIL_FROM || "info@jerseyjumpy.com",
-          ReplyTo: replyTo,
-          Subject: subject,
-          Body: [
-            {
-              ContentType: "HTML",
-              Content: html,
-            },
-          ],
-        },
-      }),
-    });
+  const fromAddress = process.env.EMAIL_FROM || "Jersey Jumpy <info@jerseyjumpy.com>";
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      const error = new Error(`Failed to send email: ${errorText}`);
+  const { data, error } = await getResend().emails.send({
+    from: fromAddress,
+    to,
+    subject,
+    html,
+    replyTo,
+  });
 
-      // Log the failed attempt
-      await logEmail(
-        { to, subject, html, replyTo },
-        logParams,
-        "failed",
-        undefined,
-        errorText
-      );
-
-      throw error;
-    }
-
-    const result: ElasticEmailResponse = await response.json();
-
-    // Log the successful send
-    await logEmail({ to, subject, html, replyTo }, logParams, "sent", result);
-
-    return result;
-  } catch (error) {
-    // If it's already our error, re-throw it (already logged)
-    if (error instanceof Error && error.message.startsWith("Failed to send email:")) {
-      throw error;
-    }
-
-    // Log unexpected errors
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+  if (error) {
     await logEmail(
       { to, subject, html, replyTo },
       logParams,
       "failed",
       undefined,
-      errorMessage
+      error.message
     );
-
-    throw error;
+    throw new Error(`Failed to send email: ${error.message}`);
   }
+
+  await logEmail(
+    { to, subject, html, replyTo },
+    logParams,
+    "sent",
+    data?.id
+  );
+
+  return data;
 }
 
 interface ContactFormData {
