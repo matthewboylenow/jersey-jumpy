@@ -16,6 +16,7 @@ import {
   MessageSquare,
   HelpCircle,
   Mail,
+  Users,
   Settings,
   X,
 } from "lucide-react";
@@ -44,6 +45,7 @@ const navItems = [
   { label: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
   { label: "FAQs", href: "/admin/faqs", icon: HelpCircle },
   { label: "Inquiries", href: "/admin/inquiries", icon: Mail },
+  { label: "Users", href: "/admin/users", icon: Users },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

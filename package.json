@@ -33,6 +33,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.1",
+    "fathom-client": "^3.7.2",
     "framer-motion": "^12.25.0",
     "lucide-react": "^0.562.0",
     "next": "15.5.9",

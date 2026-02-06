@@ -50,12 +50,12 @@ export default async function ContactPage() {
     { value: "", label: "Select an inflatable or package..." },
     { value: "---packages---", label: "--- Party Packages ---", disabled: true },
     ...packageOptions.map((p) => ({
-      value: `package-${p.id}`,
+      value: p.name,
       label: p.name,
     })),
     { value: "---inflatables---", label: "--- Inflatables ---", disabled: true },
     ...inflatableOptions.map((i) => ({
-      value: `inflatable-${i.slug}`,
+      value: i.name,
       label: i.name,
     })),
   ];

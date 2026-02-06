@@ -20,7 +20,19 @@ export async function POST(request: NextRequest) {
       requestedJumpy,
       referralSource,
       eventDetails,
+      _hp,
+      _ts,
     } = body;
+
+    // Honeypot check — bots fill hidden fields
+    if (_hp) {
+      return NextResponse.json({ success: true });
+    }
+
+    // Timing check — reject submissions faster than 3 seconds
+    if (_ts && Date.now() - _ts < 3000) {
+      return NextResponse.json({ success: true });
+    }
 
     // Validate required fields
     if (!name || !email || !phone || !address || !city || !state || !zip || !requestedDate || !requestedTime || !requestedJumpy) {

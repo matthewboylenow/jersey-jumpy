@@ -7,6 +7,7 @@ import { ArrowLeft, Mail, Phone, MapPin, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InquiryStatusBadge } from "@/components/admin/InquiryStatusBadge";
 import { InquiryActions } from "@/components/admin/InquiryActions";
+import { InquiryNotes } from "@/components/admin/InquiryNotes";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -199,11 +200,7 @@ export default async function InquiryDetailPage({ params }: PageProps) {
             <h2 className="text-lg font-semibold text-slate-900 mb-4">
               Internal Notes
             </h2>
-            {inquiry.notes ? (
-              <p className="text-slate-700 whitespace-pre-wrap">{inquiry.notes}</p>
-            ) : (
-              <p className="text-slate-500 italic">No notes added yet.</p>
-            )}
+            <InquiryNotes inquiry={inquiry} />
           </div>
         </div>
       </div>

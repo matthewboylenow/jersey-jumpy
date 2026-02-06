@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -55,6 +55,12 @@ const referralOptions = [
 export function ContactForm({ productOptions }: ContactFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  const formLoadedAt = useRef<number>(Date.now());
+
+  useEffect(() => {
+    formLoadedAt.current = Date.now();
+  }, []);
 
   const {
     register,
@@ -73,7 +79,11 @@ export function ContactForm({ productOptions }: ContactFormProps) {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          _hp: honeypotRef.current?.value || "",
+          _ts: formLoadedAt.current,
+        }),
       });
 
       if (!response.ok) {
@@ -123,6 +133,19 @@ export function ContactForm({ productOptions }: ContactFormProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      {/* Honeypot - hidden from real users */}
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          type="text"
+          id="website"
+          name="website"
+          ref={honeypotRef}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       {/* Error Banner */}
       <AnimatePresence>
         {status === "error" && (

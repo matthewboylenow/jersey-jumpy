@@ -22,24 +22,41 @@ export async function GET() {
     "Name",
     "Email",
     "Phone",
+    "Address",
+    "City",
+    "State",
+    "ZIP",
     "Requested Date",
+    "Requested Time",
     "Requested Inflatable",
+    "Referral Source",
     "Event Details",
     "Status",
+    "Notes",
     "Created At",
   ];
 
+  const esc = (val: string | null | undefined) =>
+    `"${(val || "").replace(/"/g, '""')}"`;
+
   const rows = allInquiries.map((inquiry) => [
     inquiry.id,
-    `"${(inquiry.name || "").replace(/"/g, '""')}"`,
-    `"${(inquiry.email || "").replace(/"/g, '""')}"`,
-    `"${(inquiry.phone || "").replace(/"/g, '""')}"`,
+    esc(inquiry.name),
+    esc(inquiry.email),
+    esc(inquiry.phone),
+    esc(inquiry.address),
+    esc(inquiry.city),
+    esc(inquiry.state),
+    esc(inquiry.zip),
     inquiry.requestedDate
       ? new Date(inquiry.requestedDate).toLocaleDateString()
       : "",
-    `"${(inquiry.requestedJumpy || "").replace(/"/g, '""')}"`,
-    `"${(inquiry.eventDetails || "").replace(/"/g, '""')}"`,
+    esc(inquiry.requestedTime),
+    esc(inquiry.requestedJumpy),
+    esc(inquiry.referralSource),
+    esc(inquiry.eventDetails),
     inquiry.status,
+    esc(inquiry.notes),
     inquiry.createdAt ? new Date(inquiry.createdAt).toLocaleString() : "",
   ]);
 

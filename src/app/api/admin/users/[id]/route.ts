@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { auth, hashPassword } from "@/lib/auth";
 import { getDb } from "@/lib/db";
-import { inquiries } from "@/lib/db/schema";
+import { adminUsers } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function GET(
@@ -17,9 +17,15 @@ export async function GET(
   const db = getDb();
 
   const result = await db
-    .select()
-    .from(inquiries)
-    .where(eq(inquiries.id, parseInt(id)))
+    .select({
+      id: adminUsers.id,
+      email: adminUsers.email,
+      name: adminUsers.name,
+      role: adminUsers.role,
+      createdAt: adminUsers.createdAt,
+    })
+    .from(adminUsers)
+    .where(eq(adminUsers.id, parseInt(id)))
     .limit(1);
 
   if (!result[0]) {
@@ -43,12 +49,12 @@ export async function PUT(
   const db = getDb();
 
   // Whitelist allowed fields
-  const allowedFields = ["status", "notes"] as const;
   const updates: Record<string, unknown> = {};
-  for (const field of allowedFields) {
-    if (data[field] !== undefined) {
-      updates[field] = data[field];
-    }
+  if (data.name !== undefined) updates.name = data.name;
+  if (data.email !== undefined) updates.email = data.email;
+  if (data.role !== undefined) updates.role = data.role;
+  if (data.password) {
+    updates.passwordHash = await hashPassword(data.password);
   }
 
   if (Object.keys(updates).length === 0) {
@@ -56,9 +62,9 @@ export async function PUT(
   }
 
   await db
-    .update(inquiries)
+    .update(adminUsers)
     .set(updates)
-    .where(eq(inquiries.id, parseInt(id)));
+    .where(eq(adminUsers.id, parseInt(id)));
 
   return NextResponse.json({ success: true });
 }
@@ -73,9 +79,17 @@ export async function DELETE(
   }
 
   const { id } = await params;
-  const db = getDb();
 
-  await db.delete(inquiries).where(eq(inquiries.id, parseInt(id)));
+  // Prevent self-deletion
+  if (session.user.id === id) {
+    return NextResponse.json(
+      { error: "You cannot delete your own account" },
+      { status: 400 }
+    );
+  }
+
+  const db = getDb();
+  await db.delete(adminUsers).where(eq(adminUsers.id, parseInt(id)));
 
   return NextResponse.json({ success: true });
 }

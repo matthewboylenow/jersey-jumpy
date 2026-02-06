@@ -11,6 +11,7 @@ import {
   HelpCircle,
   Mail,
   Send,
+  Users,
   Settings,
   ExternalLink,
 } from "lucide-react";
@@ -51,6 +52,11 @@ const navItems = [
     label: "Email Logs",
     href: "/admin/email-logs",
     icon: Send,
+  },
+  {
+    label: "Users",
+    href: "/admin/users",
+    icon: Users,
   },
   {
     label: "Settings",

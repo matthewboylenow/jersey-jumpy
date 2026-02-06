@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Baloo_2, DM_Sans, Caveat } from "next/font/google";
+import { FathomAnalytics } from "@/components/analytics/FathomAnalytics";
 import "./globals.css";
 
 const baloo = Baloo_2({
@@ -73,6 +75,9 @@ export default function RootLayout({
       <body
         className={`${baloo.variable} ${dmSans.variable} ${caveat.variable} antialiased`}
       >
+        <Suspense fallback={null}>
+          <FathomAnalytics />
+        </Suspense>
         {children}
       </body>
     </html>

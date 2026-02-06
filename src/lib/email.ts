@@ -99,10 +99,32 @@ interface ContactFormData {
   eventDetails?: string;
 }
 
+function formatDate(dateStr?: string): string {
+  if (!dateStr) return "Not specified";
+  const date = new Date(dateStr + "T00:00:00");
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "America/New_York",
+  });
+}
+
+function formatTime(timeStr?: string): string {
+  if (!timeStr) return "Not specified";
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  const period = hours >= 12 ? "PM" : "AM";
+  const displayHours = hours % 12 || 12;
+  return `${displayHours}:${minutes.toString().padStart(2, "0")} ${period}`;
+}
+
 export async function sendContactNotification(
   formData: ContactFormData,
   inquiryId?: number
 ) {
+  const displayDate = formatDate(formData.requestedDate);
+  const displayTime = formatTime(formData.requestedTime);
   // Email to Jersey Jumpy team
   await sendEmail(
     {
@@ -130,8 +152,8 @@ export async function sendContactNotification(
 
         <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <h3 style="margin-top: 0; color: #2D2A3E;">Event Details</h3>
-          <p><strong>Requested Date:</strong> ${formData.requestedDate || "Not specified"}</p>
-          <p><strong>Requested Time:</strong> ${formData.requestedTime || "Not specified"}</p>
+          <p><strong>Requested Date:</strong> ${displayDate}</p>
+          <p><strong>Requested Time:</strong> ${displayTime}</p>
           <p><strong>Requested Jumpy:</strong> ${formData.requestedJumpy || "Not specified"}</p>
         </div>
 
@@ -164,8 +186,8 @@ export async function sendContactNotification(
           <h3 style="margin-top: 0; color: #2D2A3E;">Your Request</h3>
           <ul style="list-style: none; padding: 0;">
             <li style="margin: 10px 0;"><strong>Inflatable:</strong> ${formData.requestedJumpy || "Not specified"}</li>
-            <li style="margin: 10px 0;"><strong>Date:</strong> ${formData.requestedDate || "Not specified"}</li>
-            <li style="margin: 10px 0;"><strong>Time:</strong> ${formData.requestedTime || "Not specified"}</li>
+            <li style="margin: 10px 0;"><strong>Date:</strong> ${displayDate}</li>
+            <li style="margin: 10px 0;"><strong>Time:</strong> ${displayTime}</li>
           </ul>
         </div>
 
