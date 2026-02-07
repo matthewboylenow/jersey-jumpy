@@ -15,6 +15,31 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/contact-book",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/thank-you",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/thank-you-for-booking",
+        destination: "/",
+        permanent: true,
+      },
+      // Old WordPress uploads (e.g. rental agreement PDF)
+      {
+        source: "/wp-content/:path*",
+        destination: "/",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {
