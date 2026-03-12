@@ -132,7 +132,12 @@ export function ContactForm({ productOptions }: ContactFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6"
+      toolname="requestQuote"
+      tooldescription="Request a quote for a bounce house, inflatable slide, obstacle course, or combo bouncer rental for a party or event in New Jersey from Jersey Jumpy"
+    >
       {/* Honeypot - hidden from real users */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
         <label htmlFor="website">Website</label>
@@ -175,6 +180,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               id="name"
               placeholder="John Smith"
               className={cn(errors.name && "border-coral")}
+              toolparamdescription="Full name of the person booking the rental"
               {...register("name")}
             />
             {errors.name && (
@@ -188,6 +194,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               type="tel"
               placeholder="(732) 555-1234"
               className={cn(errors.phone && "border-coral")}
+              toolparamdescription="Phone number for contact about the rental"
               {...register("phone")}
             />
             {errors.phone && (
@@ -201,6 +208,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               type="email"
               placeholder="john@example.com"
               className={cn(errors.email && "border-coral")}
+              toolparamdescription="Email address for booking confirmation and invoice"
               {...register("email")}
             />
             {errors.email && (
@@ -222,6 +230,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               id="address"
               placeholder="123 Main Street"
               className={cn(errors.address && "border-coral")}
+              toolparamdescription="Street address where the inflatable will be set up"
               {...register("address")}
             />
             {errors.address && (
@@ -234,6 +243,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               id="city"
               placeholder="Edison"
               className={cn(errors.city && "border-coral")}
+              toolparamdescription="City in New Jersey for the event"
               {...register("city")}
             />
             {errors.city && (
@@ -247,6 +257,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
                 id="state"
                 placeholder="NJ"
                 className={cn(errors.state && "border-coral")}
+                toolparamdescription="State (typically NJ)"
                 {...register("state")}
               />
               {errors.state && (
@@ -259,6 +270,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
                 id="zip"
                 placeholder="08817"
                 className={cn(errors.zip && "border-coral")}
+                toolparamdescription="ZIP code of the event location"
                 {...register("zip")}
               />
               {errors.zip && (
@@ -281,6 +293,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               id="requestedDate"
               type="date"
               className={cn(errors.requestedDate && "border-coral")}
+              toolparamdescription="Date of the party or event (MM/DD/YYYY)"
               {...register("requestedDate")}
             />
             {errors.requestedDate && (
@@ -293,6 +306,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               id="requestedTime"
               type="time"
               className={cn(errors.requestedTime && "border-coral")}
+              toolparamdescription="Desired start time for the inflatable rental"
               {...register("requestedTime")}
             />
             {errors.requestedTime && (
@@ -308,6 +322,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                 errors.requestedJumpy && "border-coral"
               )}
+              toolparamdescription="Which bounce house, slide, obstacle course, or combo bouncer to rent"
               {...register("requestedJumpy")}
             >
               {productOptions.map((option) => (
@@ -338,6 +353,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
             <select
               id="referralSource"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              toolparamdescription="How the customer found Jersey Jumpy"
               {...register("referralSource")}
             >
               {referralOptions.map((option) => (
@@ -353,6 +369,7 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               id="eventDetails"
               placeholder="Tell us about your event, any special requests, or questions you have..."
               rows={4}
+              toolparamdescription="Additional details about the event such as number of kids, ages, indoor vs outdoor setup, and any special requirements"
               {...register("eventDetails")}
             />
           </div>

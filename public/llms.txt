@@ -1,0 +1,23 @@
+# Jersey Jumpy
+
+> Family owned and operated bounce house, inflatable slide, obstacle course, and combo bouncer rental company serving all of New Jersey since 2007. NJ DCA certified, fully insured, SIOTO trained operators.
+
+## Contact
+- Toll Free: 866-597-6625
+- Local: 732-750-8810
+- Email: info@jerseyjumpy.com
+- Address: PO Box 217, Iselin, NJ 08830
+- Website: https://jerseyjumpy.com
+- Booking: https://jerseyjumpy.com/contact
+
+## Key Pages
+- [All Inflatables](https://jerseyjumpy.com/inflatables): Browse our full inventory of bounce houses, castle bouncers, combo bouncers, wet/dry slides, and obstacle courses
+- [Party Packages](https://jerseyjumpy.com/party-packages): Bundled inflatable packages for larger events ($1,300-$2,200)
+- [Rates & Deposits](https://jerseyjumpy.com/rates-deposits): Pricing guidelines ($350-$800 depending on unit and location)
+- [FAQs](https://jerseyjumpy.com/faqs): Answers about delivery, setup, sizing, weather policy, cancellations, and more
+- [Contact & Book](https://jerseyjumpy.com/contact): Request a quote with your party date, time, location, and preferred inflatable
+- [Safety Policies](https://jerseyjumpy.com/policies): Rules, loss of power procedures, rain and wind policies
+- [Certifications](https://jerseyjumpy.com/certifications): NJ Department of Community Affairs approved, SIOTO certified
+
+## Detailed Content
+- [Full Site Content for AI](https://jerseyjumpy.com/llms-full.txt): Complete detailed content in markdown format
