@@ -4,6 +4,7 @@ import { faqs } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 import { FAQAccordion } from "@/components/faqs/FAQAccordion";
+import { FAQPageJsonLd } from "@/components/seo/FAQPageJsonLd";
 import { Phone, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -35,6 +36,7 @@ export default async function FAQsPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-20">
+      <FAQPageJsonLd faqs={faqItems} />
       {/* Hero Section */}
       <section className="relative py-16 overflow-hidden">
         <FloatingBlobs variant="subtle" />

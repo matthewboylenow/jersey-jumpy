@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Baloo_2, DM_Sans, Caveat } from "next/font/google";
 import { FathomAnalytics } from "@/components/analytics/FathomAnalytics";
+import { AiReferralTracker } from "@/components/analytics/AiReferralTracker";
+import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
 import "./globals.css";
 
 const baloo = Baloo_2({
@@ -77,7 +79,9 @@ export default function RootLayout({
       >
         <Suspense fallback={null}>
           <FathomAnalytics />
+          <AiReferralTracker />
         </Suspense>
+        <LocalBusinessJsonLd />
         {children}
       </body>
     </html>

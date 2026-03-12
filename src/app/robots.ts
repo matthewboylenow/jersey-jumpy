@@ -2,11 +2,17 @@ import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/admin/", "/api/"],
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/admin/", "/api/admin/"],
+      },
+      {
+        userAgent: "*",
+        allow: ["/api/content/"],
+      },
+    ],
     sitemap: "https://jerseyjumpy.com/sitemap.xml",
   };
 }

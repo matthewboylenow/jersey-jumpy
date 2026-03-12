@@ -4,6 +4,7 @@ import { testimonials } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 import { TestimonialGrid } from "@/components/testimonials/TestimonialGrid";
+import { TestimonialsJsonLd } from "@/components/seo/TestimonialsJsonLd";
 import { Star, Phone } from "lucide-react";
 import Link from "next/link";
 
@@ -40,6 +41,7 @@ export default async function TestimonialsPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-20">
+      <TestimonialsJsonLd testimonials={allTestimonials} />
       {/* Hero Section */}
       <section className="relative py-16 overflow-hidden">
         <FloatingBlobs variant="subtle" />

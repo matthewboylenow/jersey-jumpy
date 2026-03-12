@@ -4,6 +4,7 @@ import { partyPackages } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 import { PartyPackageCard } from "@/components/packages/PartyPackageCard";
+import { PartyPackagesJsonLd } from "@/components/seo/PartyPackagesJsonLd";
 import { Phone, Sparkles } from "lucide-react";
 import Link from "next/link";
 
@@ -35,6 +36,7 @@ export default async function PartyPackagesPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-20">
+      <PartyPackagesJsonLd packages={packages} />
       {/* Hero Section */}
       <section className="relative py-16 overflow-hidden">
         <FloatingBlobs variant="subtle" />

@@ -5,6 +5,7 @@ import { inflatables } from "@/lib/db/schema";
 import { eq, and, ne } from "drizzle-orm";
 import { InflatableDetail } from "@/components/inflatables/InflatableDetail";
 import { RelatedInflatables } from "@/components/inflatables/RelatedInflatables";
+import { InflatableJsonLd } from "@/components/seo/InflatableJsonLd";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -86,6 +87,7 @@ export default async function InflatableDetailPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen pt-24 pb-20">
+      <InflatableJsonLd inflatable={inflatable} />
       <InflatableDetail inflatable={inflatable} />
 
       {relatedInflatables.length > 0 && (
