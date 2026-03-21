@@ -14,6 +14,7 @@ import {
   Users,
   Settings,
   ExternalLink,
+  BarChart2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -52,6 +53,11 @@ const navItems = [
     label: "Email Logs",
     href: "/admin/email-logs",
     icon: Send,
+  },
+  {
+    label: "Analytics",
+    href: "/admin/analytics",
+    icon: BarChart2,
   },
   {
     label: "Users",
