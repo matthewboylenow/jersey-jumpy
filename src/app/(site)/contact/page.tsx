@@ -5,6 +5,7 @@ import { eq, asc } from "drizzle-orm";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { getSettings, parseReferralSources } from "@/lib/settings";
 
 export const revalidate = 0;
 
@@ -42,10 +43,13 @@ async function getPackageOptions() {
 }
 
 export default async function ContactPage() {
-  const [inflatableOptions, packageOptions] = await Promise.all([
+  const [inflatableOptions, packageOptions, siteSettings] = await Promise.all([
     getInflatableOptions(),
     getPackageOptions(),
+    getSettings(),
   ]);
+
+  const referralOptions = parseReferralSources(siteSettings.referral_sources);
 
   // Combine into a single list for the dropdown
   const productOptions = [
@@ -92,7 +96,10 @@ export default async function ContactPage() {
               <h2 className="font-display font-bold text-2xl text-text-primary mb-6">
                 Request a Quote
               </h2>
-              <ContactForm productOptions={productOptions} />
+              <ContactForm
+                productOptions={productOptions}
+                referralOptions={referralOptions}
+              />
             </div>
           </div>
 

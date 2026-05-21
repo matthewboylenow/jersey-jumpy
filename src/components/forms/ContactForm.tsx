@@ -37,23 +37,27 @@ interface ProductOption {
 
 interface ContactFormProps {
   productOptions: ProductOption[];
+  referralOptions?: string[];
 }
 
-const referralOptions = [
-  { value: "", label: "How did you hear about us?" },
-  { value: "google", label: "Google Search" },
-  { value: "facebook", label: "Facebook" },
-  { value: "instagram", label: "Instagram" },
-  { value: "twitter", label: "Twitter" },
-  { value: "truck", label: "Saw our truck on the road" },
-  { value: "billboard-rt35", label: "Billboard on Rt.35" },
-  { value: "postcard", label: "Postcard" },
-  { value: "word-of-mouth", label: "Word of mouth" },
-  { value: "recommendation", label: "Friend/Family recommendation" },
-  { value: "other", label: "Other" },
+const FALLBACK_REFERRAL_OPTIONS = [
+  "Google Search",
+  "Facebook",
+  "Instagram",
+  "Twitter",
+  "Saw our truck on the road",
+  "Billboard on Rt.35",
+  "Postcard",
+  "Word of mouth",
+  "Friend/Family recommendation",
+  "Other",
 ];
 
-export function ContactForm({ productOptions }: ContactFormProps) {
+export function ContactForm({ productOptions, referralOptions }: ContactFormProps) {
+  const referralChoices =
+    referralOptions && referralOptions.length > 0
+      ? referralOptions
+      : FALLBACK_REFERRAL_OPTIONS;
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const honeypotRef = useRef<HTMLInputElement>(null);
@@ -357,9 +361,10 @@ export function ContactForm({ productOptions }: ContactFormProps) {
               toolparamdescription="How the customer found Jersey Jumpy"
               {...register("referralSource")}
             >
-              {referralOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+              <option value="">How did you hear about us?</option>
+              {referralChoices.map((option) => (
+                <option key={option} value={option}>
+                  {option}
                 </option>
               ))}
             </select>

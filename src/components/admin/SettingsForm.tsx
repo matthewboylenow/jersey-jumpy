@@ -29,6 +29,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
     delivery_fee_note: settings.delivery_fee_note || "",
     meta_title: settings.meta_title || "",
     meta_description: settings.meta_description || "",
+    referral_sources: settings.referral_sources || "",
   });
 
   const handleChange = (
@@ -207,33 +208,92 @@ export function SettingsForm({ settings }: SettingsFormProps) {
         </div>
       </div>
 
-      {/* SEO Settings */}
+      {/* Contact Form */}
       <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-6">
-        <h2 className="text-lg font-semibold text-slate-900">
-          SEO Settings
-        </h2>
+        <h2 className="text-lg font-semibold text-slate-900">Contact Form</h2>
 
         <div className="space-y-2">
-          <Label htmlFor="meta_title">Default Meta Title</Label>
+          <Label htmlFor="referral_sources">
+            &ldquo;How did you hear about us?&rdquo; Options
+          </Label>
+          <Textarea
+            id="referral_sources"
+            name="referral_sources"
+            value={formData.referral_sources}
+            onChange={handleChange}
+            rows={10}
+            placeholder={
+              "Google Search\nFacebook\nInstagram\nTwitter\nSaw our truck on the road\nBillboard on Rt.35\nPostcard\nWord of mouth\nFriend/Family recommendation\nOther"
+            }
+          />
+          <p className="text-xs text-slate-500">
+            Enter one option per line. These appear in the contact form&apos;s
+            &ldquo;How did you hear about us?&rdquo; dropdown. Leave blank to use
+            the default list.
+          </p>
+        </div>
+      </div>
+
+      {/* SEO Settings */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-6">
+        <h2 className="text-lg font-semibold text-slate-900">SEO Settings</h2>
+        <p className="text-sm text-slate-600 -mt-4">
+          These are the default title and description used across the site for
+          search engines and social shares. Individual inflatable pages can
+          override the description on the inflatable&apos;s edit page.
+        </p>
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="meta_title">Default Meta Title</Label>
+            <span
+              className={`text-xs ${
+                formData.meta_title.length > 60
+                  ? "text-amber-600"
+                  : "text-slate-500"
+              }`}
+            >
+              {formData.meta_title.length} / 60
+            </span>
+          </div>
           <Input
             id="meta_title"
             name="meta_title"
             value={formData.meta_title}
             onChange={handleChange}
-            placeholder="Jersey Jumpy - Bounce House Rentals in NJ"
+            placeholder="Jersey Jumpy | #1 Bounce House Rentals in New Jersey"
           />
+          <p className="text-xs text-slate-500">
+            Leave blank to use the built-in default. Recommended length: 50-60
+            characters.
+          </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="meta_description">Default Meta Description</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="meta_description">Default Meta Description</Label>
+            <span
+              className={`text-xs ${
+                formData.meta_description.length > 160
+                  ? "text-amber-600"
+                  : "text-slate-500"
+              }`}
+            >
+              {formData.meta_description.length} / 160
+            </span>
+          </div>
           <Textarea
             id="meta_description"
             name="meta_description"
             value={formData.meta_description}
             onChange={handleChange}
-            rows={3}
+            rows={4}
             placeholder="Premium bounce house and inflatable rentals serving NJ. Safe, clean, and fun for all ages!"
           />
+          <p className="text-xs text-slate-500">
+            Leave blank to use the built-in default. Recommended length:
+            150-160 characters.
+          </p>
         </div>
       </div>
 
