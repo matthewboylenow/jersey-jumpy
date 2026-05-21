@@ -3,6 +3,8 @@ import { getDb } from "@/lib/db";
 import { inflatables } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
+export const revalidate = 0;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://jerseyjumpy.com";
 

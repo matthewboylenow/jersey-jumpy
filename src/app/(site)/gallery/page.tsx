@@ -7,6 +7,8 @@ import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { Camera, Phone } from "lucide-react";
 import Link from "next/link";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Photo Gallery",
   description:

@@ -7,6 +7,8 @@ import { InflatableDetail } from "@/components/inflatables/InflatableDetail";
 import { RelatedInflatables } from "@/components/inflatables/RelatedInflatables";
 import { InflatableJsonLd } from "@/components/seo/InflatableJsonLd";
 
+export const revalidate = 0;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

@@ -5,6 +5,8 @@ import { eq, asc } from "drizzle-orm";
 import { InflatablesGrid } from "@/components/inflatables/InflatablesGrid";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Slide, Obstacle Course & Bounce House Rentals",
   description:

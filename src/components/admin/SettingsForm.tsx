@@ -132,7 +132,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
             value={formData.service_area}
             onChange={handleChange}
             rows={2}
-            placeholder="We serve Monmouth County, Ocean County, and surrounding areas..."
+            placeholder="We serve all of New Jersey..."
           />
         </div>
       </div>
@@ -232,7 +232,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
             value={formData.meta_description}
             onChange={handleChange}
             rows={3}
-            placeholder="Premium bounce house and inflatable rentals serving Monmouth and Ocean County, NJ. Safe, clean, and fun for all ages!"
+            placeholder="Premium bounce house and inflatable rentals serving NJ. Safe, clean, and fun for all ages!"
           />
         </div>
       </div>

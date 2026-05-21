@@ -6,6 +6,8 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Contact & Book",
   description:

@@ -8,6 +8,8 @@ import { TestimonialsJsonLd } from "@/components/seo/TestimonialsJsonLd";
 import { Star, Phone } from "lucide-react";
 import Link from "next/link";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Customer Testimonials",
   description:

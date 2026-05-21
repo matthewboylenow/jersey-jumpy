@@ -8,6 +8,8 @@ import { PartyPackagesJsonLd } from "@/components/seo/PartyPackagesJsonLd";
 import { Phone, Sparkles } from "lucide-react";
 import Link from "next/link";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Bounce House Rental Party Packages",
   description:

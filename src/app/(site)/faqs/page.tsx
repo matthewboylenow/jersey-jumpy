@@ -8,6 +8,8 @@ import { FAQPageJsonLd } from "@/components/seo/FAQPageJsonLd";
 import { Phone, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Bounce House Rentals FAQs",
   description:
