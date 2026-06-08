@@ -52,7 +52,10 @@ export async function POST(request: NextRequest) {
       city,
       state,
       zip,
-      requestedDate: new Date(requestedDate).toISOString().split('T')[0],
+      // requestedDate is already a calendar date string (YYYY-MM-DD) from the
+      // date input. Store it as-is — converting through new Date()/toISOString
+      // applies a UTC shift that can move it to the wrong day.
+      requestedDate: requestedDate.slice(0, 10),
       requestedTime,
       requestedJumpy,
       referralSource: referralSource || null,

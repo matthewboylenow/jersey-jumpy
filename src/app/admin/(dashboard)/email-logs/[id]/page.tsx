@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle, XCircle, Clock, Mail, ExternalLink, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatEventDate } from "@/lib/utils";
 
 function EmailStatusBadge({ status }: { status: string }) {
   const styles: Record<string, { bg: string; text: string; icon: React.ReactNode }> = {
@@ -193,9 +194,11 @@ export default async function EmailLogDetailPage({
                 <div>
                   <p className="text-sm text-slate-500">Date</p>
                   <p className="font-medium text-slate-900">
-                    {inquiry.requestedDate
-                      ? new Date(inquiry.requestedDate).toLocaleDateString()
-                      : "N/A"}
+                    {formatEventDate(inquiry.requestedDate, {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                    })}
                   </p>
                 </div>
                 <Button variant="outline" size="sm" className="w-full mt-4" asChild>
