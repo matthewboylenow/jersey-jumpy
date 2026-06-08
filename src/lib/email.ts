@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { getDb } from "@/lib/db";
 import { emailLogs } from "@/lib/db/schema";
+import { formatEventDate } from "@/lib/utils";
 
 let resendClient: Resend | null = null;
 
@@ -101,14 +102,7 @@ interface ContactFormData {
 
 function formatDate(dateStr?: string): string {
   if (!dateStr) return "Not specified";
-  const date = new Date(dateStr + "T00:00:00");
-  return date.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "America/New_York",
-  });
+  return formatEventDate(dateStr);
 }
 
 function formatTime(timeStr?: string): string {

@@ -9,6 +9,7 @@ import { ExportButton } from "@/components/admin/ExportButton";
 import { AdminSearch } from "@/components/admin/AdminSearch";
 import { AdminStatusFilter } from "@/components/admin/AdminStatusFilter";
 import { AdminPagination } from "@/components/admin/AdminPagination";
+import { formatEventDate } from "@/lib/utils";
 import { Suspense } from "react";
 
 const PAGE_SIZE = 15;
@@ -202,7 +203,11 @@ export default async function InquiriesPage({
                         {item.requestedDate && (
                           <p className="flex items-center gap-1 text-sm text-slate-500 mt-1">
                             <Calendar className="w-3 h-3" />
-                            {new Date(item.requestedDate).toLocaleDateString()}
+                            {formatEventDate(item.requestedDate, {
+                              year: "numeric",
+                              month: "numeric",
+                              day: "numeric",
+                            })}
                             {item.requestedTime && ` at ${item.requestedTime}`}
                           </p>
                         )}

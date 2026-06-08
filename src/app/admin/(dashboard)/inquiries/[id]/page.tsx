@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { InquiryStatusBadge } from "@/components/admin/InquiryStatusBadge";
 import { InquiryActions } from "@/components/admin/InquiryActions";
 import { InquiryNotes } from "@/components/admin/InquiryNotes";
+import { formatEventDate } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -29,15 +30,9 @@ export default async function InquiryDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const formatDate = (date: Date | string | null) => {
-    if (!date) return "N/A";
-    return new Date(date).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+  // requestedDate is a calendar date (no time/zone) — format it without
+  // timezone shifting so it doesn't roll back a day. See formatEventDate.
+  const formatDate = (date: Date | string | null) => formatEventDate(date);
 
   const formatDateTime = (date: Date | string | null) => {
     if (!date) return "N/A";

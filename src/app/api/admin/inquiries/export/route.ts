@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { inquiries } from "@/lib/db/schema";
+import { formatEventDate } from "@/lib/utils";
 import { desc } from "drizzle-orm";
 
 export async function GET() {
@@ -49,7 +50,11 @@ export async function GET() {
     esc(inquiry.state),
     esc(inquiry.zip),
     inquiry.requestedDate
-      ? new Date(inquiry.requestedDate).toLocaleDateString()
+      ? formatEventDate(inquiry.requestedDate, {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        })
       : "",
     esc(inquiry.requestedTime),
     esc(inquiry.requestedJumpy),
