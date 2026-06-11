@@ -16,7 +16,11 @@ export const inflatables = pgTable("inflatables", {
   slug: varchar("slug", { length: 255 }).unique().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   subtitle: varchar("subtitle", { length: 255 }), // e.g., "13'x13' Bouncer"
-  category: varchar("category", { length: 100 }).notNull(), // '13x13-bouncers', 'castle-bouncers', etc.
+  // Legacy single-category column. Kept in sync with categories[0] for
+  // backward compatibility; new code should read/write `categories`.
+  category: varchar("category", { length: 100 }), // '13x13-bouncers', 'castle-bouncers', etc.
+  // An inflatable can belong to multiple categories.
+  categories: text("categories").array(),
   description: text("description"),
 
   // Dimensions

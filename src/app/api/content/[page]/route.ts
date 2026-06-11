@@ -3,6 +3,7 @@ import { getDb } from "@/lib/db";
 import { inflatables, faqs, partyPackages } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { formatPrice } from "@/lib/utils";
+import { getInflatableCategories } from "@/lib/categories";
 
 interface PackageItem {
   quantity: number;
@@ -27,9 +28,13 @@ async function getInflatablesMarkdown(): Promise<string> {
 
   const grouped: Record<string, typeof items> = {};
   for (const item of items) {
-    const cat = item.category;
-    if (!grouped[cat]) grouped[cat] = [];
-    grouped[cat].push(item);
+    // List each inflatable under every category it belongs to.
+    const cats = getInflatableCategories(item);
+    const keys = cats.length > 0 ? cats : ["uncategorized"];
+    for (const cat of keys) {
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push(item);
+    }
   }
 
   let md = "# Jersey Jumpy - Inflatable Rentals\n\n";

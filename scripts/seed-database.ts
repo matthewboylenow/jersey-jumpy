@@ -96,6 +96,7 @@ async function seed() {
   for (const inflatable of inflatablesData) {
     await db.insert(schema.inflatables).values({
       ...inflatable,
+      categories: [inflatable.category],
       description: `The ${inflatable.name} is perfect for any party or event. Contact us today for availability and pricing!`,
       setupSurface: "pavement or grass",
       powerRequirement: "within 100' of power source",

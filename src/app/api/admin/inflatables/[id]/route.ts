@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { inflatables } from "@/lib/db/schema";
+import { normalizeCategories } from "@/lib/categories";
 import { eq } from "drizzle-orm";
 
 export async function GET(
@@ -46,6 +47,7 @@ export async function PUT(
     .update(inflatables)
     .set({
       ...data,
+      ...normalizeCategories(data),
       updatedAt: new Date(),
     })
     .where(eq(inflatables.id, parseInt(id)));

@@ -4,6 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import {
+  CATEGORY_BADGE_COLORS,
+  CATEGORY_SHORT_LABELS,
+  getInflatableCategories,
+} from "@/lib/categories";
 import type { Inflatable } from "@/lib/db/schema";
 
 interface InflatableCardProps {
@@ -11,28 +16,8 @@ interface InflatableCardProps {
   index?: number;
 }
 
-const categoryColors: Record<string, { bg: string; text: string }> = {
-  "13x13-bouncers": { bg: "bg-violet-600", text: "text-white" },
-  "castle-bouncers": { bg: "bg-orange-500", text: "text-white" },
-  "combo-bouncers": { bg: "bg-emerald-600", text: "text-white" },
-  "wet-dry-slides": { bg: "bg-sky-600", text: "text-white" },
-  "obstacle-courses": { bg: "bg-rose-600", text: "text-white" },
-};
-
-const categoryLabels: Record<string, string> = {
-  "13x13-bouncers": "13x13 Bouncer",
-  "castle-bouncers": "Castle Bouncer",
-  "combo-bouncers": "Combo",
-  "wet-dry-slides": "Slide",
-  "obstacle-courses": "Obstacle Course",
-};
-
 export function InflatableCard({ inflatable, index = 0 }: InflatableCardProps) {
-  const colors = categoryColors[inflatable.category] || {
-    bg: "bg-lavender",
-    text: "text-lavender-dark",
-  };
-  const label = categoryLabels[inflatable.category] || inflatable.category;
+  const itemCategories = getInflatableCategories(inflatable);
 
   // Placeholder image if no main image
   const imageUrl =
@@ -76,15 +61,19 @@ export function InflatableCard({ inflatable, index = 0 }: InflatableCardProps) {
               </div>
             )}
 
-            {/* Category Badge */}
-            <div
-              className={cn(
-                "absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold",
-                colors.bg,
-                colors.text
-              )}
-            >
-              {label}
+            {/* Category Badges */}
+            <div className="absolute top-3 left-3 flex flex-wrap gap-1 max-w-[calc(100%-1.5rem)]">
+              {itemCategories.map((cat) => (
+                <span
+                  key={cat}
+                  className={cn(
+                    "px-3 py-1 rounded-full text-xs font-bold",
+                    CATEGORY_BADGE_COLORS[cat] || "bg-lavender text-lavender-dark"
+                  )}
+                >
+                  {CATEGORY_SHORT_LABELS[cat] || cat}
+                </span>
+              ))}
             </div>
 
             {/* Price Badge */}

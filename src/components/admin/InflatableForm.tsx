@@ -10,22 +10,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { MediaUpload } from "@/components/admin/MediaUpload";
 import { GalleryManager } from "@/components/admin/GalleryManager";
 import { Inflatable } from "@/lib/db/schema";
+import { CATEGORY_OPTIONS, getInflatableCategories } from "@/lib/categories";
 
 interface FormData {
   name: string;
   slug: string;
   subtitle?: string;
-  category: string;
+  categories: string[];
   description?: string;
   width?: string;
   length?: string;
@@ -63,14 +57,6 @@ interface InflatableFormProps {
   inflatable: Inflatable | null;
 }
 
-const categories = [
-  { value: "13x13-bouncers", label: "13'x13' Bouncers" },
-  { value: "castle-bouncers", label: "Castle Bouncers" },
-  { value: "combo-bouncers", label: "Combo Bouncers" },
-  { value: "wet-dry-slides", label: "Wet/Dry Slides" },
-  { value: "obstacle-courses", label: "Obstacle Courses" },
-];
-
 export function InflatableForm({ inflatable }: InflatableFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -95,7 +81,7 @@ export function InflatableForm({ inflatable }: InflatableFormProps) {
       name: inflatable?.name || "",
       slug: inflatable?.slug || "",
       subtitle: inflatable?.subtitle || "",
-      category: inflatable?.category || "",
+      categories: inflatable ? getInflatableCategories(inflatable) : [],
       description: inflatable?.description || "",
       width: inflatable?.width || "",
       length: inflatable?.length || "",
@@ -132,6 +118,22 @@ export function InflatableForm({ inflatable }: InflatableFormProps) {
 
   const metaTitle = watch("metaTitle") || "";
   const metaDescription = watch("metaDescription") || "";
+  const selectedCategories = watch("categories") || [];
+
+  // Register the categories field so it participates in validation even though
+  // it's controlled via setValue from the checkbox group below.
+  register("categories", {
+    validate: (value) =>
+      (value && value.length > 0) || "Select at least one category",
+  });
+
+  const toggleCategory = (value: string) => {
+    const current = watch("categories") || [];
+    const next = current.includes(value)
+      ? current.filter((c) => c !== value)
+      : [...current, value];
+    setValue("categories", next, { shouldValidate: true });
+  };
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -146,6 +148,8 @@ export function InflatableForm({ inflatable }: InflatableFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...data,
+          // Keep the legacy single category in sync with the first selection.
+          category: data.categories[0],
           mainImageUrl,
           videoUrl,
           galleryImageUrls,
@@ -218,24 +222,38 @@ export function InflatableForm({ inflatable }: InflatableFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category">Category *</Label>
-            <Select
-              value={watch("category")}
-              onValueChange={(value) => setValue("category", value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.category && (
-              <p className="text-sm text-red-600">{errors.category.message}</p>
+            <Label>Categories *</Label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {CATEGORY_OPTIONS.map((cat) => {
+                const checked = selectedCategories.includes(cat.value);
+                return (
+                  <label
+                    key={cat.value}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-md border cursor-pointer transition-colors ${
+                      checked
+                        ? "border-cta-primary bg-lavender-light/30"
+                        : "border-slate-200 hover:bg-slate-50"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-slate-300 accent-cta-primary"
+                      checked={checked}
+                      onChange={() => toggleCategory(cat.value)}
+                    />
+                    <span className="text-sm text-slate-700">{cat.label}</span>
+                  </label>
+                );
+              })}
+            </div>
+            <p className="text-xs text-slate-500">
+              Select one or more categories. The first selected category is used
+              as the primary category.
+            </p>
+            {errors.categories && (
+              <p className="text-sm text-red-600">
+                {errors.categories.message as string}
+              </p>
             )}
           </div>
         </div>
