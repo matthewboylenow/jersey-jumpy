@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { CATEGORY_ICONS } from "@/lib/categories";
 import type { Category } from "@/lib/db/schema";
 
 interface CategoryFilterProps {
@@ -11,14 +12,6 @@ interface CategoryFilterProps {
   totalCount: number;
   filteredCount: number;
 }
-
-const categoryIcons: Record<string, string> = {
-  "13x13-bouncers": "🏠",
-  "castle-bouncers": "🏰",
-  "combo-bouncers": "🎪",
-  "wet-dry-slides": "🌊",
-  "obstacle-courses": "🏃",
-};
 
 export function CategoryFilter({
   categories,
@@ -48,7 +41,7 @@ export function CategoryFilter({
         {/* Category Buttons */}
         {categories.map((category) => {
           const isSelected = selectedCategory === category.slug;
-          const icon = categoryIcons[category.slug] || "🎈";
+          const icon = CATEGORY_ICONS[category.slug] || "🎈";
 
           return (
             <motion.button

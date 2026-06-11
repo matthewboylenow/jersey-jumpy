@@ -1,6 +1,11 @@
 import { getDb } from "@/lib/db";
 import { inflatables } from "@/lib/db/schema";
-import { asc, ilike, eq, and, or, sql } from "drizzle-orm";
+import { asc, ilike, eq, and, or, sql, arrayContains } from "drizzle-orm";
+import {
+  CATEGORY_LABELS,
+  CATEGORY_OPTIONS,
+  getInflatableCategories,
+} from "@/lib/categories";
 import Link from "next/link";
 import Image from "next/image";
 import { Plus, Pencil, Eye, EyeOff } from "lucide-react";
@@ -15,18 +20,7 @@ import { Suspense } from "react";
 
 const PAGE_SIZE = 10;
 
-const categoryLabels: Record<string, string> = {
-  "13x13-bouncers": "13'x13' Bouncers",
-  "castle-bouncers": "Castle Bouncers",
-  "combo-bouncers": "Combo Bouncers",
-  "wet-dry-slides": "Wet/Dry Slides",
-  "obstacle-courses": "Obstacle Courses",
-};
-
-const categories = Object.entries(categoryLabels).map(([value, label]) => ({
-  value,
-  label,
-}));
+const categories = CATEGORY_OPTIONS;
 
 interface SearchParams {
   q?: string;
@@ -55,7 +49,12 @@ async function getInflatables(searchParams: SearchParams) {
   }
 
   if (searchParams.category && searchParams.category !== "all") {
-    conditions.push(eq(inflatables.category, searchParams.category));
+    conditions.push(
+      or(
+        arrayContains(inflatables.categories, [searchParams.category]),
+        eq(inflatables.category, searchParams.category)
+      )
+    );
   }
 
   if (searchParams.status === "active") {
@@ -190,9 +189,16 @@ export default async function InflatablesPage({
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex px-2 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full">
-                        {categoryLabels[item.category] || item.category}
-                      </span>
+                      <div className="flex flex-wrap gap-1">
+                        {getInflatableCategories(item).map((cat) => (
+                          <span
+                            key={cat}
+                            className="inline-flex px-2 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full"
+                          >
+                            {CATEGORY_LABELS[cat] || cat}
+                          </span>
+                        ))}
+                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <span className="font-medium text-slate-900">

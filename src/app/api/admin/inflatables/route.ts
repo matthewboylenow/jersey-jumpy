@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { inflatables } from "@/lib/db/schema";
+import { normalizeCategories } from "@/lib/categories";
 
 export async function POST(request: NextRequest) {
   const session = await auth();
@@ -16,6 +17,7 @@ export async function POST(request: NextRequest) {
     .insert(inflatables)
     .values({
       ...data,
+      ...normalizeCategories(data),
       createdAt: new Date(),
       updatedAt: new Date(),
     })

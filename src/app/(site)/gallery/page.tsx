@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { getDb } from "@/lib/db";
 import { inflatables } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
+import { getInflatableCategories } from "@/lib/categories";
 import { FloatingBlobs } from "@/components/decorative/FloatingBlobs";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { Camera, Phone } from "lucide-react";
@@ -30,6 +31,7 @@ async function getGalleryImages() {
       name: inflatables.name,
       slug: inflatables.slug,
       category: inflatables.category,
+      categories: inflatables.categories,
       mainImageUrl: inflatables.mainImageUrl,
       galleryImageUrls: inflatables.galleryImageUrls,
     })
@@ -44,6 +46,7 @@ export default async function GalleryPage() {
 
   // Flatten all images into a gallery array
   const galleryImages = inflatablesData.flatMap((item) => {
+    const primaryCategory = getInflatableCategories(item)[0] || "";
     const images = [];
     if (item.mainImageUrl) {
       images.push({
@@ -51,7 +54,7 @@ export default async function GalleryPage() {
         url: item.mainImageUrl,
         name: item.name,
         slug: item.slug,
-        category: item.category,
+        category: primaryCategory,
       });
     }
     if (item.galleryImageUrls) {
@@ -62,7 +65,7 @@ export default async function GalleryPage() {
             url,
             name: item.name,
             slug: item.slug,
-            category: item.category,
+            category: primaryCategory,
           });
         }
       });

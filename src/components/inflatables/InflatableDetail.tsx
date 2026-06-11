@@ -19,31 +19,19 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  CATEGORY_BADGE_COLORS,
+  CATEGORY_SHORT_LABELS,
+  getInflatableCategories,
+} from "@/lib/categories";
 import type { Inflatable } from "@/lib/db/schema";
 
 interface InflatableDetailProps {
   inflatable: Inflatable;
 }
 
-const categoryLabels: Record<string, string> = {
-  "13x13-bouncers": "13x13 Bouncer",
-  "castle-bouncers": "Castle Bouncer",
-  "combo-bouncers": "Combo",
-  "wet-dry-slides": "Wet/Dry Slide",
-  "obstacle-courses": "Obstacle Course",
-};
-
-const categoryColors: Record<string, string> = {
-  "13x13-bouncers": "bg-violet-600 text-white",
-  "castle-bouncers": "bg-orange-500 text-white",
-  "combo-bouncers": "bg-emerald-600 text-white",
-  "wet-dry-slides": "bg-sky-600 text-white",
-  "obstacle-courses": "bg-rose-600 text-white",
-};
-
 export function InflatableDetail({ inflatable }: InflatableDetailProps) {
-  const categoryLabel = categoryLabels[inflatable.category] || inflatable.category;
-  const categoryColor = categoryColors[inflatable.category] || "bg-lavender text-lavender-dark";
+  const itemCategories = getInflatableCategories(inflatable);
 
   // Lightbox state for gallery
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -110,10 +98,19 @@ export function InflatableDetail({ inflatable }: InflatableDetailProps) {
               </div>
             )}
 
-            {/* Category Badge */}
-            <Badge className={cn("absolute top-4 left-4", categoryColor)}>
-              {categoryLabel}
-            </Badge>
+            {/* Category Badges */}
+            <div className="absolute top-4 left-4 flex flex-wrap gap-1.5 max-w-[calc(100%-2rem)]">
+              {itemCategories.map((cat) => (
+                <Badge
+                  key={cat}
+                  className={cn(
+                    CATEGORY_BADGE_COLORS[cat] || "bg-lavender text-lavender-dark"
+                  )}
+                >
+                  {CATEGORY_SHORT_LABELS[cat] || cat}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           {/* Video Section */}

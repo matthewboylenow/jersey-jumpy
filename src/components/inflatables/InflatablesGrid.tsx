@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { InflatableCard } from "./InflatableCard";
 import { CategoryFilter } from "./CategoryFilter";
+import { getInflatableCategories } from "@/lib/categories";
 import type { Inflatable, Category } from "@/lib/db/schema";
 
 interface InflatablesGridProps {
@@ -16,7 +17,9 @@ export function InflatablesGrid({ inflatables, categories }: InflatablesGridProp
 
   const filteredInflatables = useMemo(() => {
     if (!selectedCategory) return inflatables;
-    return inflatables.filter((item) => item.category === selectedCategory);
+    return inflatables.filter((item) =>
+      getInflatableCategories(item).includes(selectedCategory)
+    );
   }, [inflatables, selectedCategory]);
 
   return (

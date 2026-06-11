@@ -2,10 +2,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDb } from "@/lib/db";
 import { inflatables } from "@/lib/db/schema";
-import { eq, and, ne } from "drizzle-orm";
+import { eq, and, ne, or, inArray, arrayOverlaps } from "drizzle-orm";
 import { InflatableDetail } from "@/components/inflatables/InflatableDetail";
 import { RelatedInflatables } from "@/components/inflatables/RelatedInflatables";
 import { InflatableJsonLd } from "@/components/seo/InflatableJsonLd";
+import { getInflatableCategories } from "@/lib/categories";
 
 export const revalidate = 0;
 
@@ -23,14 +24,23 @@ async function getInflatable(slug: string) {
   return results[0] || null;
 }
 
-async function getRelatedInflatables(category: string, excludeSlug: string) {
+async function getRelatedInflatables(
+  itemCategories: string[],
+  excludeSlug: string
+) {
+  if (itemCategories.length === 0) return [];
+
   const db = getDb();
   const results = await db
     .select()
     .from(inflatables)
     .where(
       and(
-        eq(inflatables.category, category),
+        // Related if it shares any category (new array column or legacy column).
+        or(
+          arrayOverlaps(inflatables.categories, itemCategories),
+          inArray(inflatables.category, itemCategories)
+        ),
         eq(inflatables.isActive, true),
         ne(inflatables.slug, excludeSlug)
       )
@@ -56,7 +66,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     "wet-dry-slides": "water slide",
     "obstacle-courses": "obstacle course",
   };
-  const categoryName = categoryNames[inflatable.category] || "inflatable";
+  const primaryCategory = getInflatableCategories(inflatable)[0];
+  const categoryName =
+    (primaryCategory && categoryNames[primaryCategory]) || "inflatable";
 
   const defaultDescription = `Rent the ${inflatable.name} ${categoryName} for your New Jersey party! ${inflatable.subtitle || ""} Professional delivery, setup & pickup throughout NJ. Book today!`;
 
@@ -83,7 +95,7 @@ export default async function InflatableDetailPage({ params }: PageProps) {
   }
 
   const relatedInflatables = await getRelatedInflatables(
-    inflatable.category,
+    getInflatableCategories(inflatable),
     inflatable.slug
   );
 
