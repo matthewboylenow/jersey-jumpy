@@ -46,7 +46,16 @@ async function seed() {
 
   // 3. Seed Inflatables (placeholder data - will be updated with actual data from WordPress)
   console.log("Seeding inflatables...");
-  const inflatablesData = [
+  // `category` is the primary category; `categories` may list additional ones
+  // for items that belong in more than one place (defaults to [category]).
+  const inflatablesData: {
+    slug: string;
+    name: string;
+    subtitle: string;
+    category: string;
+    price: number;
+    categories?: string[];
+  }[] = [
     // 13x13 Bouncers
     { slug: "dora-the-explorer", name: "Dora The Explorer", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
     { slug: "batman", name: "Batman", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
@@ -76,8 +85,8 @@ async function seed() {
     { slug: "disney-princess-3d-5-in-one", name: "Disney Princess Collection 3D 5-In-One", subtitle: "5-In-1 Combo", category: "combo-bouncers", price: 475 },
     { slug: "5-in-one-modular-combo", name: "5-In-One Modular Combo", subtitle: "5-In-1 Combo", category: "combo-bouncers", price: 475 },
     { slug: "wacky-kid-zone", name: "Wacky Kid Zone", subtitle: "Combo Bouncer", category: "combo-bouncers", price: 425 },
-    { slug: "jump-n-splash-castle", name: "Jump N Splash Castle with Pool", subtitle: "4-In-1 Combo with Pool", category: "combo-bouncers", price: 550 },
-    { slug: "jump-n-splash-paradise-palms", name: "Jump N Splash Paradise Palms with Pool", subtitle: "4-In-1 Combo with Pool", category: "combo-bouncers", price: 550 },
+    { slug: "jump-n-splash-castle", name: "Jump N Splash Castle with Pool", subtitle: "4-In-1 Combo with Pool", category: "combo-bouncers", price: 550, categories: ["combo-bouncers", "wet-dry-slides"] },
+    { slug: "jump-n-splash-paradise-palms", name: "Jump N Splash Paradise Palms with Pool", subtitle: "4-In-1 Combo with Pool", category: "combo-bouncers", price: 550, categories: ["combo-bouncers", "wet-dry-slides"] },
     { slug: "balloon-ride-5-in-one", name: "5-In-One Balloon Ride Bouncer", subtitle: "5-In-1 Combo", category: "combo-bouncers", price: 475 },
 
     // Wet/Dry Slides
@@ -96,7 +105,7 @@ async function seed() {
   for (const inflatable of inflatablesData) {
     await db.insert(schema.inflatables).values({
       ...inflatable,
-      categories: [inflatable.category],
+      categories: inflatable.categories ?? [inflatable.category],
       description: `The ${inflatable.name} is perfect for any party or event. Contact us today for availability and pricing!`,
       setupSurface: "pavement or grass",
       powerRequirement: "within 100' of power source",
