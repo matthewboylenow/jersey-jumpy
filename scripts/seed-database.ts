@@ -65,6 +65,7 @@ async function seed() {
     { slug: "happy-birthday", name: "Happy Birthday", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
     { slug: "halloween", name: "Halloween", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
     { slug: "happy-haunting", name: "Happy Haunting", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
+    { slug: "graveyard", name: "Graveyard", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
     { slug: "its-a-girl-thing", name: "It's A Girl Thing", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
     { slug: "trucks", name: "Trucks", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
     { slug: "celebrate", name: "Celebrate", subtitle: "13'x13' Bouncer", category: "13x13-bouncers", price: 350 },
